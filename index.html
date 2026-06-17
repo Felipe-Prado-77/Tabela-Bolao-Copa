@@ -28,292 +28,115 @@
       overflow-x: hidden;
     }
 
-    /* ── STADIUM BACKGROUND ── */
     body::before {
       content: '';
       position: fixed; inset: 0;
       background:
         radial-gradient(ellipse 80% 50% at 50% 0%, rgba(26,92,42,0.55) 0%, transparent 70%),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 48px,
-          rgba(255,255,255,0.025) 48px,
-          rgba(255,255,255,0.025) 50px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 48px,
-          rgba(255,255,255,0.015) 48px,
-          rgba(255,255,255,0.015) 50px
-        );
-      pointer-events: none;
-      z-index: 0;
+        repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.025) 48px, rgba(255,255,255,0.025) 50px),
+        repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(255,255,255,0.015) 48px, rgba(255,255,255,0.015) 50px);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── HEADER ── */
     header {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 3rem 1rem 2rem;
+      position: relative; z-index: 1; text-align: center; padding: 3rem 1rem 2rem;
       background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 100%);
     }
 
-    .trophy-icon {
-      font-size: 4rem;
-      display: block;
-      animation: float 3s ease-in-out infinite;
-      line-height: 1;
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
-    }
+    .trophy-icon { font-size: 4rem; display: block; animation: float 3s ease-in-out infinite; line-height: 1; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
     .site-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.8rem, 8vw, 5.5rem);
-      letter-spacing: 0.06em;
-      color: var(--gold);
-      text-shadow: 0 0 40px rgba(255,215,0,0.4), 2px 4px 0 rgba(0,0,0,0.6);
-      line-height: 1;
-      margin-top: 0.5rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 8vw, 5.5rem);
+      letter-spacing: 0.06em; color: var(--gold); text-shadow: 0 0 40px rgba(255,215,0,0.4), 2px 4px 0 rgba(0,0,0,0.6);
+      line-height: 1; margin-top: 0.5rem;
     }
 
-    .site-sub {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(255,215,0,0.65);
-      margin-top: 0.4rem;
-    }
-
-    .legend-pills {
-      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-      margin-top: 1.8rem;
-    }
-    .pill {
-      display: flex; align-items: center; gap: 0.45rem;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.35rem 1rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-    }
+    .site-sub { font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,215,0,0.65); margin-top: 0.4rem; }
+    .legend-pills { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
+    .pill { display: flex; align-items: center; gap: 0.45rem; background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; }
     .pill .dot { width: 10px; height: 10px; border-radius: 50%; }
     .dot-gold { background: var(--gold); }
     .dot-green { background: var(--green-mid); }
     .dot-red   { background: var(--red); }
 
-    /* ── MAIN CONTAINER ── */
     main { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 1rem 4rem; }
-
-    /* ── TABLE ── */
-    .table-wrap {
-      background: rgba(0,0,0,0.35);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-    }
-
+    .table-wrap { background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; backdrop-filter: blur(8px); box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
     table { width: 100%; border-collapse: collapse; }
-
-    thead tr {
-      background: linear-gradient(90deg, var(--green-deep) 0%, var(--green-field) 100%);
-    }
-    thead th {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      padding: 1.1rem 1.2rem;
-      text-align: left;
-      border-bottom: 2px solid var(--gold-dark);
-    }
+    thead tr { background: linear-gradient(90deg, var(--green-deep) 0%, var(--green-field) 100%); }
+    thead th { font-family: 'Oswald', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); padding: 1.1rem 1.2rem; text-align: left; border-bottom: 2px solid var(--gold-dark); }
     thead th.center { text-align: center; }
-
-    tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      transition: background 0.2s;
-    }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.2s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: rgba(255,255,255,0.05); }
-
-    /* podium highlights */
     tbody tr:nth-child(1) { background: rgba(255,215,0,0.07); }
     tbody tr:nth-child(2) { background: rgba(192,192,192,0.05); }
     tbody tr:nth-child(3) { background: rgba(205,127,50,0.05); }
-    tbody tr:nth-child(1):hover { background: rgba(255,215,0,0.12); }
-    tbody tr:nth-child(2):hover { background: rgba(192,192,192,0.09); }
-    tbody tr:nth-child(3):hover { background: rgba(205,127,50,0.09); }
-
     td { padding: 1rem 1.2rem; vertical-align: middle; }
     td.center { text-align: center; }
-
-    .rank {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      color: rgba(255,255,255,0.35);
-      width: 42px;
-    }
+    .rank { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: rgba(255,255,255,0.35); width: 42px; }
     .rank-1 { color: var(--gold); }
     .rank-2 { color: #c0c0c0; }
     .rank-3 { color: #cd7f32; }
-
     .medal { font-size: 1.3rem; }
-
-    .player-name {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-
-    .pts-cell {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.9rem;
-      color: var(--gold);
-      text-shadow: 0 0 16px rgba(255,215,0,0.35);
-      letter-spacing: 0.04em;
-    }
-
-    .stat-badge {
-      display: inline-block;
-      border-radius: 6px;
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 600;
-      padding: 0.18rem 0.6rem;
-      min-width: 32px;
-      text-align: center;
-    }
+    .player-name { font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em; }
+    .pts-cell { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--gold); text-shadow: 0 0 16px rgba(255,215,0,0.35); letter-spacing: 0.04em; }
+    .stat-badge { display: inline-block; border-radius: 6px; font-family: 'Oswald', sans-serif; font-size: 0.88rem; font-weight: 600; padding: 0.18rem 0.6rem; min-width: 32px; text-align: center; }
     .badge-exact  { background: rgba(255,215,0,0.18); color: var(--gold); border: 1px solid rgba(255,215,0,0.4); }
     .badge-winner { background: rgba(42,122,64,0.35);  color: #7ef09b;    border: 1px solid rgba(42,122,64,0.6); }
     .badge-miss   { background: rgba(192,57,43,0.2);   color: #ff8f80;    border: 1px solid rgba(192,57,43,0.4); }
-
     .bar-wrap { background: rgba(255,255,255,0.08); border-radius: 999px; height: 6px; width: 100%; min-width: 80px; }
     .bar-fill { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--green-mid), var(--gold)); transition: width 0.6s ease; }
 
-    /* admin edit button inside row */
-    .edit-btn {
-      background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4);
-      border-radius: 6px; padding: 0.25rem 0.6rem; font-size: 0.75rem; cursor: pointer;
-      transition: all 0.2s;
-    }
+    .edit-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); border-radius: 6px; padding: 0.25rem 0.6rem; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
     .edit-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-    /* ── ADMIN PANEL ── */
     #admin-toggle-wrap { text-align: center; margin-top: 2.5rem; }
-    #admin-toggle-btn {
-      background: none; border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.3); border-radius: 8px;
-      padding: 0.5rem 1.2rem; font-size: 0.78rem; cursor: pointer;
-      letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s;
-    }
+    #admin-toggle-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.3); border-radius: 8px; padding: 0.5rem 1.2rem; font-size: 0.78rem; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; }
     #admin-toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-    #login-panel {
-      display: none;
-      background: rgba(0,0,0,0.55); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.6rem; margin-top: 1rem;
-      backdrop-filter: blur(10px);
-      max-width: 360px; margin-left: auto; margin-right: auto;
-    }
-    #login-panel h3 {
-      font-family: 'Oswald', sans-serif; color: var(--gold);
-      letter-spacing: 0.1em; margin-bottom: 1rem; text-align: center;
-    }
+    #login-panel { display: none; background: rgba(0,0,0,0.55); border: 1px solid var(--border); border-radius: 14px; padding: 1.6rem; margin-top: 1rem; backdrop-filter: blur(10px); max-width: 360px; margin-left: auto; margin-right: auto; }
+    #login-panel h3 { font-family: 'Oswald', sans-serif; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 1rem; text-align: center; }
     .field-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
     .field-group label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
-    .field-group input {
-      background: rgba(255,255,255,0.07); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.6rem 0.9rem; color: var(--white);
-      font-size: 0.95rem; outline: none; transition: border 0.2s;
-    }
+    .field-group input, .field-group select { background: rgba(255,255,255,0.07); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.9rem; color: var(--white); font-size: 0.95rem; outline: none; transition: border 0.2s; }
+    .field-group select option { background: var(--green-deep); color: white; }
     .field-group input:focus { border-color: var(--gold); }
-    .btn-primary {
-      width: 100%; background: var(--gold); color: var(--green-deep);
-      border: none; border-radius: 8px; padding: 0.75rem;
-      font-family: 'Oswald', sans-serif; font-size: 1rem;
-      font-weight: 700; letter-spacing: 0.1em; cursor: pointer;
-      transition: background 0.2s;
-    }
+    .btn-primary { width: 100%; background: var(--gold); color: var(--green-deep); border: none; border-radius: 8px; padding: 0.75rem; font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; }
     .btn-primary:hover { background: var(--gold-dark); }
+    .btn-api { width: 100%; background: #2a7a40; color: white; border: none; border-radius: 8px; padding: 0.75rem; font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; margin-bottom: 1rem; box-shadow: 0 0 15px rgba(42,122,64,0.4); }
+    .btn-api:hover { background: #1a5c2a; }
     #login-error { color: #ff8f80; font-size: 0.82rem; text-align: center; margin-top: 0.5rem; display: none; }
 
-    /* edit modal */
-    #edit-modal {
-      display: none; position: fixed; inset: 0; z-index: 100;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-      align-items: center; justify-content: center;
-    }
+    #edit-modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
     #edit-modal.open { display: flex; }
-    .modal-box {
-      background: linear-gradient(135deg, var(--green-deep) 0%, #0a2e14 100%);
-      border: 1px solid var(--border); border-radius: 18px;
-      padding: 2rem; width: 90%; max-width: 440px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
-    }
-    .modal-box h3 {
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
-      color: var(--gold); letter-spacing: 0.08em; margin-bottom: 1.2rem;
-    }
+    .modal-box { background: linear-gradient(135deg, var(--green-deep) 0%, #0a2e14 100%); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; width: 90%; max-width: 440px; box-shadow: 0 32px 80px rgba(0,0,0,0.7); }
+    .modal-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 1.2rem; }
     .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem; }
     .modal-grid .field-group { margin-bottom: 0; }
     .modal-actions { display: flex; gap: 0.8rem; }
-    .btn-cancel {
-      flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-      color: var(--white); border-radius: 8px; padding: 0.65rem;
-      font-family: 'Oswald', sans-serif; font-size: 0.95rem;
-      cursor: pointer; transition: background 0.2s;
-    }
+    .btn-cancel { flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--white); border-radius: 8px; padding: 0.65rem; font-family: 'Oswald', sans-serif; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
     .btn-cancel:hover { background: rgba(255,255,255,0.14); }
 
-    /* ── ADD PLAYER ── */
-    #add-player-panel {
-      display: none; margin-top: 1.2rem;
-      background: rgba(0,0,0,0.35); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.4rem; max-width: 600px;
-      margin-left: auto; margin-right: auto; backdrop-filter: blur(8px);
-    }
-    #add-player-panel h3 {
-      font-family: 'Oswald', sans-serif; color: var(--gold);
-      margin-bottom: 1rem; letter-spacing: 0.08em;
-    }
-    .add-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0.6rem; align-items: end; }
-    @media(max-width: 560px) { .add-grid { grid-template-columns: 1fr 1fr; } }
-    .add-grid .field-group { margin-bottom: 0; }
-    #btn-add-player {
-      background: rgba(255,215,0,0.15); border: 1px solid var(--gold);
-      color: var(--gold); border-radius: 8px; padding: 0.62rem 1rem;
-      font-family: 'Oswald', sans-serif; font-size: 0.9rem; cursor: pointer;
-      letter-spacing: 0.06em; transition: background 0.2s;
-      white-space: nowrap;
-    }
+    #add-player-panel, #games-panel, #bet-panel { display: none; margin-top: 1.5rem; background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; max-width: 600px; margin-left: auto; margin-right: auto; backdrop-filter: blur(8px); }
+    #add-player-panel h3, #games-panel h3, #bet-panel h3 { font-family: 'Oswald', sans-serif; color: var(--gold); margin-bottom: 1rem; letter-spacing: 0.08em; }
+    .add-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.6rem; align-items: end; margin-bottom: 1rem;}
+    
+    #btn-add-player { background: rgba(255,215,0,0.15); border: 1px solid var(--gold); color: var(--gold); border-radius: 8px; padding: 0.62rem 1rem; font-family: 'Oswald', sans-serif; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.06em; transition: background 0.2s; white-space: nowrap; width: 100%; }
     #btn-add-player:hover { background: rgba(255,215,0,0.28); }
 
-    /* ── FOOTER ── */
-    footer {
-      position: relative; z-index: 1; text-align: center;
-      padding: 2rem 1rem;
-      color: rgba(255,255,255,0.2); font-size: 0.75rem;
-      letter-spacing: 0.08em;
-    }
+    /* Custom Styles para a Matriz de Palpites */
+    .bet-matrix-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; }
+    .bet-matrix-table th { background: rgba(255,215,0,0.1); color: var(--gold); padding: 8px; font-size: 0.8rem; text-transform: uppercase; font-family: 'Oswald', sans-serif; }
+    .bet-matrix-table td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+    .input-score { width: 50px; padding: 5px; text-align: center; background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: white; border-radius: 6px; font-weight: bold; }
+    .input-score:focus { border-color: var(--gold); outline: none; }
 
-    /* ── RESPONSIVE ── */
-    @media(max-width: 600px) {
-      thead th.hide-sm, td.hide-sm { display: none; }
-      .pts-cell { font-size: 1.4rem; }
-    }
+    footer { position: relative; z-index: 1; text-align: center; padding: 2rem 1rem; color: rgba(255,255,255,0.2); font-size: 0.75rem; letter-spacing: 0.08em; }
+    @media(max-width: 600px) { thead th.hide-sm, td.hide-sm { display: none; } .pts-cell { font-size: 1.4rem; } }
   </style>
 </head>
+
 <body>
 
 <header>
@@ -346,7 +169,6 @@
     </table>
   </div>
 
-  <!-- ADMIN LOGIN TOGGLE -->
   <div id="admin-toggle-wrap">
     <button id="admin-toggle-btn" onclick="toggleLogin()">⚙ Área do Administrador</button>
   </div>
@@ -361,11 +183,10 @@
     <div id="login-error">Senha incorreta. Tente novamente.</div>
   </div>
 
-  <!-- ADD PLAYER PANEL (admin only) -->
   <div id="add-player-panel">
     <h3>➕ Adicionar Participante</h3>
     <div class="add-grid">
-      <div class="field-group">
+      <div class="field-group" style="grid-column: span 2;">
         <label>Nome</label>
         <input type="text" id="new-name" placeholder="Nome completo"/>
       </div>
@@ -384,9 +205,57 @@
     </div>
     <button id="btn-add-player" onclick="addPlayer()">Adicionar Participante</button>
   </div>
+
+  <div id="games-panel">
+    <button class="btn-api" onclick="syncResultsFromAPI()">🔄 Atualizar Resultados via SofaScore</button>
+
+    <h3>⚽ Gerenciar Jogos</h3>
+    <div class="add-grid">
+      <div class="field-group">
+        <label>Time A</label>
+        <input type="text" id="game-team-a" placeholder="Brazil">
+      </div>
+      <div class="field-group">
+        <label>Time B</label>
+        <input type="text" id="game-team-b" placeholder="Morocco">
+      </div>
+      <div class="field-group">
+        <label>Rodada</label>
+        <input type="number" id="game-round" value="1" min="1">
+      </div>
+    </div>
+    <button class="btn-primary" onclick="addGame()">➕ Adicionar Jogo Manual</button>
+    <hr style="margin:20px 0; border: 0; border-top: 1px solid var(--border);">
+    <h3>📋 Jogos Cadastrados</h3>
+    <div id="games-list"></div>
+  </div>
+
+  <div id="bet-panel">
+    <h3>📝 Cadastrar Palpites em Massa</h3>
+    <div class="field-group" style="max-width: 100%; margin-bottom: 15px;">
+      <label>Selecionar Participante</label>
+      <select id="bet-player" onchange="renderBetMatrix()"></select>
+    </div>
+    
+    <!-- Tabela Dinâmica que lista todos os jogos para preenchimento rápido -->
+    <div style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
+      <table class="bet-matrix-table">
+        <thead>
+          <tr>
+            <th>Jogo</th>
+            <th style="text-align: center; width: 140px;">Palpite</th>
+          </tr>
+        </thead>
+        <tbody id="bet-matrix-body">
+          <!-- Gerado dinamicamente via JS -->
+        </tbody>
+      </table>
+    </div>
+    
+    <button class="btn-primary" onclick="saveAllBets()">💾 Salvar Todos os Palpites</button>
+  </div>
 </main>
 
-<!-- EDIT MODAL -->
 <div id="edit-modal">
   <div class="modal-box">
     <h3 id="modal-title">Editar Participante</h3>
@@ -420,42 +289,53 @@
 
 <footer>⚽ Bolão da Copa · Atualizado em tempo real · Somente o administrador pode editar</footer>
 
-<script>
-  // ─── SENHA DO ADMIN (mude aqui) ───────────────────────────────────────────
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, getDocs, getDoc, deleteDoc, doc, onSnapshot, updateDoc, query, where
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXKRI9-ddGS4UHGyhzGqigNupWKgoKDpM",
+    authDomain: "bolao-copa-2026-99146.firebaseapp.com",
+    projectId: "bolao-copa-2026-99146",
+    storageBucket: "bolao-copa-2026-99146.firebasestorage.app",
+    messagingSenderId: "286147851511",
+    appId: "1:286147851511:web:7039d87a78cc9d33f68ff2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
   const ADMIN_PASSWORD = "copa2026";
-  // ──────────────────────────────────────────────────────────────────────────
-
-  const STORAGE_KEY = "bolao_copa_data";
-
-  // ─── DADOS INICIAIS (edite antes de publicar) ─────────────────────────────
-  const defaultPlayers = [
-    { name: "Ana Souza",     exact: 4, winner: 3, miss: 5 },
-    { name: "Bruno Lima",    exact: 3, winner: 5, miss: 4 },
-    { name: "Carla Mendes",  exact: 2, winner: 6, miss: 4 },
-    { name: "Diego Costa",   exact: 5, winner: 2, miss: 5 },
-    { name: "Eduarda Reis",  exact: 1, winner: 4, miss: 7 },
-    { name: "Felipe Torres", exact: 3, winner: 3, miss: 6 },
-    { name: "Giovana Nunes", exact: 2, winner: 5, miss: 5 },
-    { name: "Henrique Luz",  exact: 6, winner: 1, miss: 5 },
-  ];
-  // ──────────────────────────────────────────────────────────────────────────
-
+  
   let players = [];
   let isAdmin = false;
   let editIndex = null;
+  let localGames = [];
 
-  function calcPoints(p) { return p.exact * 3 + p.winner * 1; }
-
-  function loadData() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    players = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultPlayers));
+  // Realtime Ranking Loader
+  function startRealtimeRanking() {
+    onSnapshot(collection(db, "participantes"), (snapshot) => {
+      players = [];
+      snapshot.forEach((documento) => {
+        const data = documento.data();
+        players.push({
+          firebaseId: documento.id,
+          name: data.nome || "",
+          exact: Number(data.exatos || 0),
+          winner: Number(data.vencedores || 0),
+          miss: Number(data.erros || 0)
+        });
+      });
+      renderTable();
+      loadPlayersSelect();
+    });
   }
 
-  function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(players)); }
-
-  function getMedal(i) {
-    return ["🥇","🥈","🥉"][i] || "";
-  }
+  function calcPoints(p) { return (p.exact || 0) * 3 + (p.winner || 0); }
+  function getMedal(i) { return ["🥇","🥈","🥉"][i] || ""; }
+  function esc(s) { return s ? s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;") : ""; }
 
   function renderTable() {
     const sorted = [...players]
@@ -474,28 +354,23 @@
         <td class="rank ${rankClass}">${rank + 1}</td>
         <td>
           <span class="medal">${getMedal(rank)}</span>
-          <span class="player-name" style="margin-left:${rank<3?'0.4rem':'0'}">${esc(p.name)}</span>
+          <span class="player-name" style="margin-left:${rank < 3 ? '0.4rem':'0'}">${esc(p.name)}</span>
         </td>
         <td class="center pts-cell">${p.pts}</td>
-        <td class="center hide-sm"><span class="stat-badge badge-exact">${p.exact}</span></td>
-        <td class="center hide-sm"><span class="stat-badge badge-winner">${p.winner}</span></td>
-        <td class="center hide-sm"><span class="stat-badge badge-miss">${p.miss}</span></td>
+        <td class="center hide-sm"><span class="stat-badge badge-exact">${p.exact || 0}</span></td>
+        <td class="center hide-sm"><span class="stat-badge badge-winner">${p.winner || 0}</span></td>
+        <td class="center hide-sm"><span class="stat-badge badge-miss">${p.miss || 0}</span></td>
         <td class="center hide-sm">
           <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div>
         </td>
-        ${isAdmin ? `<td class="center"><button class="edit-btn" onclick="openEdit(${p._orig})">✏ Editar</button></td>` : '<td class="center" style="display:none"></td>'}
+        ${isAdmin ? `<td class="center"><button class="edit-btn" onclick="openEdit(${p._orig})">✏ Editar</button></td>` : ''}
       `;
       tbody.appendChild(tr);
     });
-
     document.getElementById("action-col").style.display = isAdmin ? "" : "none";
   }
 
-  function esc(s) {
-    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
-
-  // ─── LOGIN ────────────────────────────────────────────────────────────────
+  // Auth Functions
   function toggleLogin() {
     if (isAdmin) { logout(); return; }
     const panel = document.getElementById("login-panel");
@@ -508,13 +383,16 @@
     if (pw === ADMIN_PASSWORD) {
       isAdmin = true;
       document.getElementById("login-panel").style.display = "none";
+      document.getElementById("bet-panel").style.display = "block";
       document.getElementById("add-player-panel").style.display = "block";
+      document.getElementById("games-panel").style.display = "block";
       document.getElementById("admin-toggle-btn").textContent = "🔓 Sair do modo admin";
       document.getElementById("admin-toggle-btn").style.color = "var(--gold)";
       document.getElementById("admin-toggle-btn").style.borderColor = "var(--gold)";
       document.getElementById("login-error").style.display = "none";
       document.getElementById("admin-password").value = "";
       renderTable();
+      renderBetMatrix();
     } else {
       document.getElementById("login-error").style.display = "block";
     }
@@ -523,73 +401,295 @@
   function logout() {
     isAdmin = false;
     document.getElementById("add-player-panel").style.display = "none";
+    document.getElementById("games-panel").style.display = "none";
+    document.getElementById("bet-panel").style.display = "none";
     document.getElementById("admin-toggle-btn").textContent = "⚙ Área do Administrador";
     document.getElementById("admin-toggle-btn").style.color = "";
     document.getElementById("admin-toggle-btn").style.borderColor = "";
     renderTable();
   }
 
-  // ─── EDIT MODAL ───────────────────────────────────────────────────────────
+  // Player Operations
+  async function addPlayer() {
+    const name = document.getElementById("new-name").value.trim();
+    if (!name) { alert("Informe o nome do participante."); return; }
+    try {
+      await addDoc(collection(db, "participantes"), {
+        nome: name, exatos: Number(document.getElementById("new-exact").value || 0),
+        vencedores: Number(document.getElementById("new-winner").value || 0),
+        erros: Number(document.getElementById("new-miss").value || 0)
+      });
+      alert("Participante cadastrado!");
+      document.getElementById("new-name").value = "";
+    } catch (error) { alert("Erro ao salvar no Firebase."); }
+  }
+
   function openEdit(idx) {
-    editIndex = idx;
-    const p = players[idx];
-    document.getElementById("modal-name").value   = p.name;
-    document.getElementById("modal-exact").value  = p.exact;
+    editIndex = idx; const p = players[idx];
+    document.getElementById("modal-name").value = p.name;
+    document.getElementById("modal-exact").value = p.exact;
     document.getElementById("modal-winner").value = p.winner;
-    document.getElementById("modal-miss").value   = p.miss;
+    document.getElementById("modal-miss").value = p.miss;
     document.getElementById("modal-title").textContent = "✏ Editar · " + p.name;
     document.getElementById("edit-modal").classList.add("open");
   }
+  function closeModal() { document.getElementById("edit-modal").classList.remove("open"); editIndex = null; }
 
-  function closeModal() {
-    document.getElementById("edit-modal").classList.remove("open");
-    editIndex = null;
-  }
-
-  function saveEdit() {
+  async function saveEdit() {
     if (editIndex === null) return;
-    players[editIndex] = {
-      name:   document.getElementById("modal-name").value.trim() || players[editIndex].name,
-      exact:  Math.max(0, parseInt(document.getElementById("modal-exact").value)  || 0),
-      winner: Math.max(0, parseInt(document.getElementById("modal-winner").value) || 0),
-      miss:   Math.max(0, parseInt(document.getElementById("modal-miss").value)   || 0),
-    };
-    saveData(); renderTable(); closeModal();
+    const player = players[editIndex];
+    try {
+      await updateDoc(doc(db, "participantes", player.firebaseId), {
+        nome: document.getElementById("modal-name").value.trim(),
+        exatos: Math.max(0, parseInt(document.getElementById("modal-exact").value) || 0),
+        vencedores: Math.max(0, parseInt(document.getElementById("modal-winner").value) || 0),
+        erros: Math.max(0, parseInt(document.getElementById("modal-miss").value) || 0),
+      });
+      closeModal(); alert("Participante atualizado!");
+    } catch (e) { alert("Erro ao atualizar!"); }
   }
 
-  function deletePlayer() {
+  async function deletePlayer() {
     if (editIndex === null) return;
-    if (!confirm(`Remover "${players[editIndex].name}" da tabela?`)) return;
-    players.splice(editIndex, 1);
-    saveData(); renderTable(); closeModal();
+    const player = players[editIndex];
+    if (!confirm(`Remover "${player.name}"?`)) return;
+    try { await deleteDoc(doc(db, "participantes", player.firebaseId)); closeModal(); alert("Removido!"); } catch (e) { alert("Erro."); }
   }
 
-  // ─── ADD PLAYER ───────────────────────────────────────────────────────────
-  function addPlayer() {
-    const name = document.getElementById("new-name").value.trim();
-    if (!name) { alert("Informe o nome do participante."); return; }
-    players.push({
-      name,
-      exact:  Math.max(0, parseInt(document.getElementById("new-exact").value)  || 0),
-      winner: Math.max(0, parseInt(document.getElementById("new-winner").value) || 0),
-      miss:   Math.max(0, parseInt(document.getElementById("new-miss").value)   || 0),
+  // Games and Bets Operations
+  async function addGame() {
+    const teamA = document.getElementById("game-team-a").value.trim();
+    const teamB = document.getElementById("game-team-b").value.trim();
+    const round = Number(document.getElementById("game-round").value);
+    if (!teamA || !teamB) { alert("Informe os dois times."); return; }
+    try {
+      await addDoc(collection(db, "jogos"), { timeA: teamA, timeB: teamB, rodada: round, golsA: null, golsB: null, finalizado: false });
+      document.getElementById("game-team-a").value = ""; document.getElementById("game-team-b").value = ""; alert("Jogo cadastrado!");
+    } catch (e) { alert("Erro ao cadastrar jogo."); }
+  }
+
+  // NOVA FUNÇÃO: Deletar Jogo do Banco
+  async function removerJogo(jogoId) {
+    if (!confirm("Tem certeza que deseja deletar este jogo permanentemente do sistema?")) return;
+    try {
+      await deleteDoc(doc(db, "jogos", jogoId));
+      alert("Jogo removido com sucesso!");
+    } catch (e) {
+      alert("Erro ao remover o jogo.");
+    }
+  }
+
+  function startRealtimeGames() {
+    onSnapshot(collection(db, "jogos"), (snapshot) => {
+      const container = document.getElementById("games-list");
+      container.innerHTML = ""; localGames = [];
+      snapshot.forEach((gameDoc) => {
+        const game = gameDoc.data();
+        localGames.push({ id: gameDoc.id, ...game });
+        const div = document.createElement("div");
+        div.style.padding = "10px"; div.style.marginBottom = "10px"; div.style.border = "1px solid rgba(255,255,255,0.15)"; div.style.borderRadius = "8px"; div.style.display = "flex"; div.style.justifyContent = "between"; div.style.alignItems = "center"; div.style.flexWrap = "wrap";
+        
+        div.innerHTML = `
+          <div style="flex: 1; min-width: 200px;">
+            <strong>${game.timeA}</strong> x <strong>${game.timeB}</strong> <br>
+            <span style="font-size:0.8rem; color: rgba(255,255,255,0.5)">Rodada ${game.rodada} ${game.finalizado ? ' (Finalizado)' : ''}</span> <br><br>
+            <input type="number" id="a-${gameDoc.id}" placeholder="Gols" value="${game.golsA !== null ? game.golsA : ''}" style="width:50px; padding: 4px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; border-radius: 4px;" ${game.finalizado ? 'disabled' : ''}>
+            x
+            <input type="number" id="b-${gameDoc.id}" placeholder="Gols" value="${game.golsB !== null ? game.golsB : ''}" style="width:50px; padding: 4px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; border-radius: 4px;" ${game.finalizado ? 'disabled' : ''}>
+            ${!game.finalizado ? `<button onclick="finalizarJogoManual('${gameDoc.id}')" style="margin-left:10px; padding:4px 8px; background:gold; border:none; cursor:pointer; font-weight:bold; border-radius:4px; color: black; font-size: 0.8rem;">Finalizar</button>` : ''}
+          </div>
+          <div>
+            <button onclick="removerJogo('${gameDoc.id}')" style="padding:6px 10px; background:rgba(192,57,43,0.8); border:none; cursor:pointer; color: white; border-radius:4px; font-size: 0.8rem; font-weight: bold; margin-top:5px;">🗑 Excluir</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+      renderBetMatrix();
     });
-    saveData(); renderTable();
-    document.getElementById("new-name").value   = "";
-    document.getElementById("new-exact").value  = "0";
-    document.getElementById("new-winner").value = "0";
-    document.getElementById("new-miss").value   = "0";
-    document.getElementById("new-name").focus();
   }
 
-  // close modal on backdrop click
-  document.getElementById("edit-modal").addEventListener("click", function(e) {
-    if (e.target === this) closeModal();
-  });
+  // NOVA FUNÇÃO: Renderizar a Matriz para preenchimento de todos os palpites
+  function renderBetMatrix() {
+    const tbody = document.getElementById("bet-matrix-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
 
-  // ─── INIT ─────────────────────────────────────────────────────────────────
-  loadData();
-  renderTable();
+    // Filtra apenas jogos que não estão finalizados
+    const jogosAbertos = localGames.filter(j => !j.finalizado);
+
+    if (jogosAbertos.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; color:rgba(255,255,255,0.4)">Nenhum jogo em aberto cadastrado.</td></tr>`;
+      return;
+    }
+
+    jogosAbertos.forEach(jogo => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>
+          <span style="font-weight: 600;">${jogo.timeA}</span> 
+          <span style="color:var(--gold); font-size:0.8rem; margin: 0 4px;">x</span> 
+          <span style="font-weight: 600;">${jogo.timeB}</span>
+          <br><small style="color:rgba(255,255,255,0.4)">Rodada ${jogo.rodada}</small>
+        </td>
+        <td style="text-align: center; white-space: nowrap;">
+          <input type="number" min="0" class="input-score" id="matrix-a-${jogo.id}" placeholder="0">
+          <span style="margin:0 2px;">-</span>
+          <input type="number" min="0" class="input-score" id="matrix-b-${jogo.id}" placeholder="0">
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // NOVA FUNÇÃO: Salva em lote todos os palpites digitados na tabela
+  async function saveAllBets() {
+    const participanteId = document.getElementById("bet-player").value;
+    if (!participanteId) { alert("Crie ou selecione um participante primeiro!"); return; }
+
+    const jogosAbertos = localGames.filter(j => !j.finalizado);
+    let salvos = 0;
+
+    try {
+      for (const jogo of jogosAbertos) {
+        const valA = document.getElementById(`matrix-a-${jogo.id}`).value;
+        const valB = document.getElementById(`matrix-b-${jogo.id}`).value;
+
+        // Só salva se o administrador tiver preenchido os dois campos de gols do jogo
+        if (valA !== "" && valB !== "") {
+          await addDoc(collection(db, "palpites"), {
+            participanteId,
+            jogoId: jogo.id,
+            palpiteA: Number(valA),
+            palpiteB: Number(valB)
+          });
+          salvos++;
+          
+          // Limpa os campos após salvar
+          document.getElementById(`matrix-a-${jogo.id}`).value = "";
+          document.getElementById(`matrix-b-${jogo.id}`).value = "";
+        }
+      }
+
+      if (salvos === 0) {
+        alert("Nenhum palpite foi preenchido. Digite os placares antes de salvar.");
+      } else {
+        alert(`Sucesso! ${salvos} palpite(s) gravado(s) de uma vez só.`);
+      }
+    } catch(e) {
+      console.error(e);
+      alert("Erro ao salvar os palpites no Firebase.");
+    }
+  }
+
+  async function syncResultsFromAPI() {
+    const idCampeonato = "58210"; 
+    const idTemporada = "16"; 
+    
+    const apiTargetUrl = `https://api.sofascore.com/api/v1/unique-tournament/${idCampeonato}/season/${idTemporada}/events`;
+    const urlProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(apiTargetUrl)}&_nocache=${Date.now()}`;
+
+    try {
+      const response = await fetch(urlProxy);
+      if (!response.ok) throw new Error("Erro de comunicação com o servidor proxy.");
+      
+      const wrapper = await response.json();
+      const resData = JSON.parse(wrapper.contents);
+      
+      if (!resData.events || resData.events.length === 0) {
+        alert("O SofaScore respondeu, mas nenhum jogo foi encontrado. Verifique se os números mudaram.");
+        return;
+      }
+
+      let atualizados = 0;
+      const listaJogosParaValidar = localGames || [];
+
+      for (const event of resData.events) {
+        const status = event.status ? event.status.type : "";
+        
+        if (status === "ended" || status === "finished") {
+          if (!event.homeTeam || !event.awayTeam || !event.homeScore || !event.awayScore) continue;
+
+          const apiTimeA = event.homeTeam.name.toLowerCase();
+          const apiTimeB = event.awayTeam.name.toLowerCase();
+          
+          const golsA = event.homeScore.display !== undefined ? event.homeScore.display : event.homeScore.current;
+          const golsB = event.awayScore.display !== undefined ? event.awayScore.display : event.awayScore.current;
+
+          for (const jogoLocal of listaJogosParaValidar) {
+            if (jogoLocal.finalizado) continue;
+
+            const localTimeA = jogoLocal.timeA.toLowerCase();
+            const localTimeB = jogoLocal.timeB.toLowerCase();
+
+            if ((localTimeA === apiTimeA || apiTimeA.includes(localTimeA) || localTimeA.includes(apiTimeA)) && 
+                (localTimeB === apiTimeB || apiTimeB.includes(localTimeB) || localTimeB.includes(apiTimeB))) {
+              
+              await updateDoc(doc(db, "jogos", jogoLocal.id), {
+                golsA: Number(golsA),
+                golsB: Number(golsB),
+                finalizado: true
+              });
+              
+              await calcularPontuacao(jogoLocal.id, Number(golsA), Number(golsB));
+              atualizados++;
+            }
+          }
+        }
+      }
+
+      if (atualizados === 0) {
+        alert(`SofaScore consultado! Porém, nenhuma partida finalizada lá corresponde aos jogos abertos no painel.`);
+      } else {
+        alert(`Sucesso total! ${atualizados} jogo(s) sincronizado(s) e pontuado(s)!`);
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Erro na sincronização.");
+    }
+  }
+  
+  async function finalizarJogoManual(jogoId) {
+    const golsA = Number(document.getElementById(`a-${jogoId}`).value);
+    const golsB = Number(document.getElementById(`b-${jogoId}`).value);
+    if (document.getElementById(`a-${jogoId}`).value === "" || document.getElementById(`b-${jogoId}`).value === "") { alert("Preencha os gols!"); return; }
+    try {
+      await updateDoc(doc(db, "jogos", jogoId), { golsA, golsB, finalizado: true });
+      await calcularPontuacao(jogoId, golsA, golsB);
+      alert("Jogo finalizado e pontuado!");
+    } catch(e) { alert("Erro ao finalizar."); }
+  }
+
+  async function calcularPontuacao(jogoId, golsA, golsB) {
+    const q = query(collection(db, "palpites"), where("jogoId", "==", jogoId));
+    const snapshot = await getDocs(q);
+    for (const docSnap of snapshot.docs) {
+      const palpite = docSnap.data(); let pontos = 0;
+      if (palpite.palpiteA === golsA && palpite.palpiteB === golsB) { pontos = 3; }
+      else if ((palpite.palpiteA > palpite.palpiteB && golsA > golsB) || (palpite.palpiteA < palpite.palpiteB && golsA < golsB) || (palpite.palpiteA === palpite.palpiteB && golsA === golsB)) { pontos = 1; }
+      const participanteRef = doc(db, "participantes", palpite.participanteId);
+      const participanteSnap = await getDoc(participanteRef);
+      if (participanteSnap.exists()) {
+        const p = participanteSnap.data();
+        await updateDoc(participanteRef, {
+          exatos: (p.exatos || 0) + (pontos === 3 ? 1 : 0),
+          vencedores: (p.vencedores || 0) + (pontos === 1 ? 1 : 0),
+          erros: (p.erros || 0) + (pontos === 0 ? 1 : 0)
+        });
+      }
+    }
+  }
+
+  function loadPlayersSelect() {
+    const select = document.getElementById("bet-player"); if (!select) return; select.innerHTML = "";
+    players.forEach((p) => { const option = document.createElement("option"); option.value = p.firebaseId; option.textContent = p.name; select.appendChild(option); });
+  }
+
+  document.getElementById("edit-modal").addEventListener("click", function(e) { if (e.target === this) closeModal(); });
+
+  window.toggleLogin = toggleLogin; window.doLogin = doLogin; window.logout = logout; window.addPlayer = addPlayer; window.addGame = addGame; window.removerJogo = removerJogo; window.saveAllBets = saveAllBets; window.renderBetMatrix = renderBetMatrix; window.finalizarJogoManual = finalizarJogoManual; window.openEdit = openEdit; window.closeModal = closeModal; window.saveEdit = saveEdit; window.deletePlayer = deletePlayer; window.syncResultsFromAPI = syncResultsFromAPI;
+
+  startRealtimeRanking(); startRealtimeGames();
 </script>
 </body>
 </html>
