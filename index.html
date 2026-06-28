@@ -30,6 +30,27 @@
       overflow-x: hidden;
     }
 
+    /* MOLDURA RGB ANIMADA (TELA INTEIRA) */
+    .rgb-screen-frame {
+      position: fixed;
+      inset: 0;
+      pointer-events: none; /* Impede que a linha bloqueie cliques no site */
+      z-index: 99999; /* Fica por cima de absolutamente tudo */
+      border: 4px solid transparent;
+      /* Gradiente com as cores principais do RGB e da identidade visual */
+      border-image: linear-gradient(45deg, #ff0055, #00ff87, #00f0ff, #ffcc00, #9900ff, #ff0055) 1;
+      animation: rgb-rotate 5s linear infinite;
+    }
+
+    @keyframes rgb-rotate {
+      0% {
+        filter: hue-rotate(0deg);
+      }
+      100% {
+        filter: hue-rotate(360deg);
+      }
+    }
+
     /* Padrão geométrico de fundo inspirado na marca FIFA 26 */
     body::before {
       content: '';
@@ -47,32 +68,20 @@
       position: relative; z-index: 1; text-align: center; padding: 3rem 1rem 1.5rem;
     }
 
-    /* Emblema da Taça FIFA Metálica e Iluminada */
+    /* Emblema da Taça FIFA Oficial */
     .logo-container {
       position: relative;
       display: inline-block;
       margin-bottom: 1rem;
     }
-    .trophy-icon {
-      font-size: 4.5rem;
+    .trophy-img {
+      height: 130px;
+      width: auto;
       display: block;
-      background: var(--gold-metallic);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+      filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.35));
       animation: float 3.5s ease-in-out infinite;
-      line-height: 1;
     }
-    .logo-26 {
-      position: absolute;
-      bottom: -10px; right: -15px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      color: var(--white);
-      text-shadow: 0 0 10px var(--fifa-cyan);
-      transform: rotate(-10deg);
-    }
-    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.03); } }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.02); } }
 
     .site-title {
       font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 5.5rem);
@@ -263,10 +272,11 @@
 
 <body>
 
+<div class="rgb-screen-frame"></div>
+
 <header>
   <div class="logo-container">
-    <span class="trophy-icon">🏆</span>
-    <span class="logo-26">26</span>
+    <img src="https://assets.football-logos.cc/logos/tournaments/1500x1500/fifa-world-cup-2026--white.10e0b37b.png" class="trophy-img" alt="FIFA World Cup 2026 Logo">
   </div>
   <div class="site-title">FIFA World Cup 2026</div>
   <div class="site-sub">Plataforma Oficial de Palpites</div>
@@ -282,7 +292,6 @@
 
 <main>
 
-  <!-- TABELA GERAL -->
   <div id="menu-tabela" class="tab-content active">
     <div class="legend-pills">
       <div class="pill"><span class="dot dot-gold"></span>Placar Exato (3 pts)</div>
@@ -310,7 +319,6 @@
     <div id="ranking-highlights" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 2rem;"></div>
   </div>
 
-  <!-- VISUALIZAR JOGOS (MODO LEITURA PURO) -->
   <div id="menu-jogos" class="tab-content">
     <section style="max-width: 900px; margin: 0 auto 20px auto;">
       <button class="btn-toggle-central" onclick="toggleCentralJogos()">
@@ -341,7 +349,6 @@
     <div class="bracket-wrapper" id="knockout-bracket-container"></div>
   </div>
 
-  <!-- FAZER PALPITES -->
   <div id="menu-palpitar" class="tab-content">
     <div id="bet-panel">
       <h3>📝 CADASTRAR MEUS PALPITES</h3>
@@ -373,7 +380,6 @@
     </div>
   </div>
 
-  <!-- CONSULTAR PALPITES -->
   <div id="menu-consultar" class="tab-content">
     <div id="public-bets-section">
       <h2>🔍 HISTÓRICO DE PALPITES</h2>
@@ -391,7 +397,6 @@
     </div>
   </div>
 
-  <!-- ADMINISTRAÇÃO (CONGRESSO DE GERENCIAMENTO REAL) -->
   <div id="menu-admin" class="tab-content">
     <div id="admin-toggle-wrap">
       <button id="admin-toggle-btn" onclick="toggleLogin()">⚙️ Autenticação Admin</button>
@@ -597,7 +602,11 @@
     "frança": "fr", "franca": "fr", "senegal": "sn", "noruega": "no",
     "argentina": "ar", "argélia": "dz", "argelia": "dz", "áustria": "at", "austria": "at", "jordânia": "jo", "jordania": "jo",
     "portugal": "pt", "uzbequistão": "uz", "uzbequistao": "uz", "colômbia": "co", "colombia": "co",
-    "inglaterra": "gb-eng", "croácia": "hr", "croacia": "hr", "gana": "gh", "panamá": "pa", "panama": "pa"
+    "inglaterra": "gb-eng", "croácia": "hr", "croacia": "hr", "gana": "gh", "panamá": "pa", "panama": "pa",
+    "suécia": "se", "suecia": "se",
+    "rd congo": "cd", "república democrática do congo": "cd", "republica democratica do congo": "cd",
+    "bósnia": "ba", "bosnia": "ba", "bósnia e herzegovina": "ba", "bosnia e herzegovina": "ba",
+    "algéria": "dz", "algeria": "dz"
   };
 
   function getFlagHTML(teamName) {
@@ -769,6 +778,7 @@
     document.getElementById("modal-exact").value = p.exact;
     document.getElementById("modal-winner").value = p.winner;
     document.getElementById("modal-miss").value = p.miss;
+    document.getElementById("modal-password").value = "";
     document.getElementById("edit-modal").classList.add("open");
   }
 
@@ -777,15 +787,28 @@
   async function saveEdit() {
     if (!isAdmin) { alert("Acesso negado."); return; }
     const player = players[editIndex];
+    const novaSenha = document.getElementById("modal-password").value.trim();
+
+    const dadosAtualizados = {
+      nome: document.getElementById("modal-name").value.trim(),
+      exatos: parseInt(document.getElementById("modal-exact").value) || 0,
+      vencedores: parseInt(document.getElementById("modal-winner").value) || 0,
+      erros: parseInt(document.getElementById("modal-miss").value) || 0,
+    };
+
+    if (novaSenha !== "") {
+      dadosAtualizados.senha = novaSenha;
+    }
+
     try {
-      await updateDoc(doc(db, "participantes", player.firebaseId), {
-        nome: document.getElementById("modal-name").value.trim(),
-        exatos: parseInt(document.getElementById("modal-exact").value) || 0,
-        vencedores: parseInt(document.getElementById("modal-winner").value) || 0,
-        erros: parseInt(document.getElementById("modal-miss").value) || 0,
-      });
-      closeModal(); alert("Modificado!");
-    } catch (e) { alert("Erro."); }
+      await updateDoc(doc(db, "participantes", player.firebaseId), dadosAtualizados);
+      document.getElementById("modal-password").value = ""; 
+      closeModal(); 
+      alert("Modificado com sucesso!");
+    } catch (e) { 
+      console.error("Erro ao atualizar:", e);
+      alert("Erro ao salvar modificações."); 
+    }
   }
 
   async function deletePlayer() {
@@ -835,7 +858,6 @@
     const groupTree = {};
 
     localGames.forEach(game => {
-      // RENDEREIZAÇÃO EXCLUSIVA NO PAINEL ADMIN PARA GERENCIAMENTO DE PLACAR REAIS
       if(adminList && isAdmin) {
         const d = document.createElement("div");
         d.className = "jogo-card";
@@ -869,7 +891,6 @@
       }
     });
 
-    // RENDERIZAÇÃO PÚBLICA DA FASE DE GRUPOS (APENAS LEITURA)
     Object.keys(groupTree).sort().forEach(round => {
       const rDiv = document.createElement("div");
       rDiv.innerHTML = `<div class="round-title">${getRoundText(round)}</div>`;
@@ -877,9 +898,14 @@
         const gDiv = document.createElement("div");
         gDiv.innerHTML = `<div class="group-title">${group}</div>`;
         groupTree[round][group].forEach(game => {
+          const dateText = game.dataInicio ? game.dataInicio.split('-').reverse().join('/') : '';
+          const timeText = game.horaInicio ? game.horaInicio : '';
+          const dateTimeStr = (dateText || timeText) ? `<span style="font-size: 0.8rem; color: rgba(255,255,255,0.4); font-family: 'Inter', sans-serif;">🕒 ${dateText} ${timeText}</span>` : '';
+          
           gDiv.innerHTML += `
             <div class="jogo-card">
-              <span>${getFlagHTML(game.timeA)} ${game.timeA} <b>${game.golsA !== null ? game.golsA : '-'}</b> x <b>${game.golsB !== null ? game.golsB : '-'}</b> ${getFlagHTML(game.timeB)} ${game.timeB}</span>
+              <span>${getFlagHTML(game.timeA)} ${game.timeA} B ${game.golsA !== null ? game.golsA : '-'}</b> x <b>${game.golsB !== null ? game.golsB : '-'}</b> ${getFlagHTML(game.timeB)} ${game.timeB}</span>
+              ${dateTimeStr}
             </div>`;
         });
         rDiv.appendChild(gDiv);
@@ -887,7 +913,6 @@
       if(groupContainer) groupContainer.appendChild(rDiv);
     });
 
-    // RENDERIZAÇÃO PÚBLICA DO MATA-MATA (APENAS LEITURA)
     KO_ROUNDS.forEach(round => {
       if(koGamesByRound[round].length > 0) {
         const col = document.createElement("div");
@@ -895,6 +920,10 @@
         col.innerHTML = `<div class="bracket-column-title">${getRoundText(round)}</div>`;
         
         koGamesByRound[round].forEach(game => {
+          const dateText = game.dataInicio ? game.dataInicio.split('-').reverse().join('/') : '';
+          const timeText = game.horaInicio ? game.horaInicio : '';
+          const dateTimeStr = (dateText || timeText) ? `<div style="font-size: 0.75rem; color: rgba(255,255,255,0.3); text-align: right; margin-top: 4px;">🕒 ${dateText} ${timeText}</div>` : '';
+          
           const matchCard = document.createElement("div");
           matchCard.className = "bracket-match-card";
           matchCard.innerHTML = `
@@ -906,6 +935,7 @@
               <span>${getFlagHTML(game.timeB)} ${game.timeB}</span>
               <span class="bracket-score-box">${game.golsB !== null ? game.golsB : '-'}</span>
             </div>
+            ${dateTimeStr}
           `;
           col.appendChild(matchCard);
         });
@@ -923,7 +953,15 @@
     cLive.innerHTML = ""; cNext.innerHTML = ""; cDone.innerHTML = "";
 
     localGames.forEach(j => {
-      const html = `<div class="jogo-card">${getFlagHTML(j.timeA)} ${j.timeA} [${j.golsA !== null ? j.golsA : '-'}] x [${j.golsB !== null ? j.golsB : '-'}] ${getFlagHTML(j.timeB)} ${j.timeB}</div>`;
+      const dateText = j.dataInicio ? j.dataInicio.split('-').reverse().join('/') : '';
+      const timeText = j.horaInicio ? j.horaInicio : '';
+      const dateTimeStr = (dateText || timeText) ? `<span style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">🕒 ${dateText} ${timeText}</span>` : '';
+      
+      const html = `
+        <div class="jogo-card">
+          <span>${getFlagHTML(j.timeA)} ${j.timeA} [${j.golsA !== null ? j.golsA : '-'}] x [${j.golsB !== null ? j.golsB : '-'}] ${getFlagHTML(j.timeB)} ${j.timeB}</span>
+          ${dateTimeStr}
+        </div>`;
       if(j.finalizado) cDone.innerHTML += html;
       else if(j.golsA !== null) cLive.innerHTML += html;
       else cNext.innerHTML += html;
@@ -988,7 +1026,7 @@
     if(pal) {
       palpiteTexto = `<b>${pal.palpiteA} x ${pal.palpiteB}</b>`;
       if(jogo.finalizado) {
-        if(pal.palpiteA === jogo.golsA && pal.palpiteB === jogo.golsB) {
+        if(pal.palpiteA === Math.floor(jogo.golsA) && pal.palpiteB === Math.floor(jogo.golsB)) {
           badge = `<span class="bet-badge-status status-exact">🎯 Cravou</span>`;
         } 
         else if((pal.palpiteA > pal.palpiteB && jogo.golsA > jogo.golsB) || 
@@ -1095,7 +1133,7 @@
     
     await updateDoc(doc(db, "jogos", jogoId), { golsA, golsB, finalizado: true });
     
-    const snap = await getDocs(query(collection(db, "palpites"), where("jogoId", "==", jogoId)));
+    const snap = await getDocs(query(collection(db, "jogoId", "==", jogoId)));
     for (const d of snap.docs) {
       const p = d.data(); let pts = 0;
       if(p.palpiteA === golsA && p.palpiteB === golsB) pts = 3;
