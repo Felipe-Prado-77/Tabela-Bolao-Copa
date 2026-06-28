@@ -3,306 +3,500 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🏆 Bolão da Copa · Ranking</title>
+  <title>🏆 Bolão FIFA World Cup 2026 · Oficial</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --green-deep:  #0d3b1a;
-      --green-field: #1a5c2a;
-      --green-mid:   #2a7a40;
-      --gold:        #FFD700;
-      --gold-dark:   #c9a800;
-      --white:       #f5f5f5;
-      --red:         #c0392b;
-      --card-bg:     rgba(255,255,255,0.06);
-      --border:      rgba(255,215,0,0.18);
+      --fifa-bg:       #0a051b;
+      --fifa-dark:     #121b3a;
+      --fifa-neon:     #00ff87; /* Verde-lima característico de 2026 */
+      --fifa-purple:   #6910ff;
+      --fifa-cyan:     #00f0ff;
+      --gold:          #FFD700;
+      --gold-metallic: linear-gradient(135deg, #ffe56f 0%, #ffc800 50%, #b89200 100%);
+      --white:         #ffffff;
+      --red:           #ff4a4a;
+      --card-bg:       rgba(255, 255, 255, 0.04);
+      --border:        rgba(0, 240, 255, 0.15);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--green-deep);
+      background: radial-gradient(circle at 50% 0%, var(--fifa-dark) 0%, var(--fifa-bg) 70%);
       color: var(--white);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
+    /* Padrão geométrico de fundo inspirado na marca FIFA 26 */
     body::before {
       content: '';
       position: fixed; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(26,92,42,0.55) 0%, transparent 70%),
-        repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.025) 48px, rgba(255,255,255,0.025) 50px),
-        repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(255,255,255,0.015) 48px, rgba(255,255,255,0.015) 50px);
+      background-image: 
+        radial-gradient(at 20% 20%, rgba(105, 16, 255, 0.15) 0px, transparent 50%),
+        radial-gradient(at 80% 40%, rgba(0, 255, 135, 0.1) 0px, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
       pointer-events: none; z-index: 0;
     }
 
     header {
-      position: relative; z-index: 1; text-align: center; padding: 3rem 1rem 2rem;
-      background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 100%);
+      position: relative; z-index: 1; text-align: center; padding: 3rem 1rem 1.5rem;
     }
 
-    .trophy-icon { font-size: 4rem; display: block; animation: float 3s ease-in-out infinite; line-height: 1; }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    /* Emblema da Taça FIFA Metálica e Iluminada */
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .trophy-icon {
+      font-size: 4.5rem;
+      display: block;
+      background: var(--gold-metallic);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+      animation: float 3.5s ease-in-out infinite;
+      line-height: 1;
+    }
+    .logo-26 {
+      position: absolute;
+      bottom: -10px; right: -15px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--white);
+      text-shadow: 0 0 10px var(--fifa-cyan);
+      transform: rotate(-10deg);
+    }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.03); } }
 
     .site-title {
-      font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 8vw, 5.5rem);
-      letter-spacing: 0.06em; color: var(--gold); text-shadow: 0 0 40px rgba(255,215,0,0.4), 2px 4px 0 rgba(0,0,0,0.6);
-      line-height: 1; margin-top: 0.5rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 5.5rem);
+      letter-spacing: 0.03em; text-transform: uppercase;
+      background: linear-gradient(180deg, #fff 40%, #a2b4f1 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(105, 16, 255, 0.4);
+      line-height: 0.9; margin-top: 0.5rem;
     }
 
-    .site-sub { font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,215,0,0.65); margin-top: 0.4rem; }
-    .legend-pills { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
-    .pill { display: flex; align-items: center; gap: 0.45rem; background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; }
+    .site-sub { 
+      font-family: 'Oswald', sans-serif; font-size: 0.95rem; letter-spacing: 0.35em; 
+      text-transform: uppercase; color: var(--fifa-neon); margin-top: 0.6rem;
+      font-weight: 600;
+    }
+    
+    /* MENU ESTILO FIFA OS */
+    .nav-menus {
+      position: relative; z-index: 10; 
+      display: flex; justify-content: flex-start;
+      gap: 0.6rem; max-width: 900px; 
+      margin: 2rem auto; padding: 0 1rem 0.8rem 1rem; 
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    .nav-menus::-webkit-scrollbar { height: 4px; }
+    .nav-menus::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+    .nav-menus::-webkit-scrollbar-thumb { background: var(--fifa-cyan); border-radius: 4px; }
+
+    .menu-btn {
+      background: rgba(18, 27, 58, 0.7); border: 1px solid var(--border); color: rgba(255,255,255,0.7);
+      padding: 0.8rem 1.4rem; border-radius: 12px; font-family: 'Oswald', sans-serif; 
+      font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; display: flex; align-items: center; gap: 8px;
+      backdrop-filter: blur(10px);
+    }
+    .menu-btn:hover { border-color: var(--fifa-neon); color: var(--fifa-neon); background: rgba(0, 255, 135, 0.05); }
+    .menu-btn.active { 
+      background: linear-gradient(90deg, var(--fifa-purple), #4500b5); 
+      color: var(--white); border-color: var(--fifa-cyan);
+      box-shadow: 0 0 20px rgba(105, 16, 255, 0.45), inset 0 0 10px rgba(0, 240, 255, 0.3);
+      font-weight: bold;
+    }
+
+    .tab-content { display: none; animation: tabFade 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .tab-content.active { display: block; }
+    @keyframes tabFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .legend-pills { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .pill { display: flex; align-items: center; gap: 0.5rem; background: rgba(18, 27, 58, 0.6); border: 1px solid var(--border); border-radius: 999px; padding: 0.45rem 1.2rem; font-size: 0.8rem; font-weight: 600; backdrop-filter: blur(5px); }
     .pill .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-gold { background: var(--gold); }
-    .dot-green { background: var(--green-mid); }
-    .dot-red   { background: var(--red); }
+    .dot-gold { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+    .dot-green { background: var(--fifa-neon); box-shadow: 0 0 8px var(--fifa-neon); }
+    .dot-red   { background: var(--red); box-shadow: 0 0 8px var(--red); }
 
-    main { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 1rem 4rem; }
-    .table-wrap { background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; backdrop-filter: blur(8px); box-shadow: 0 24px 64px rgba(0,0,0,0.5); margin-bottom: 2.5rem; }
+    main { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 1rem 4rem; }
+    
+    /* GLASSMORPHISM TABLES */
+    .table-wrap { background: rgba(10, 5, 27, 0.6); border: 1px solid var(--border); border-radius: 20px; overflow-x: auto; backdrop-filter: blur(16px); box-shadow: 0 30px 70px rgba(0,0,0,0.6); }
     table { width: 100%; border-collapse: collapse; }
-    thead tr { background: linear-gradient(90deg, var(--green-deep) 0%, var(--green-field) 100%); }
-    thead th { font-family: 'Oswald', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); padding: 1.1rem 1.2rem; text-align: left; border-bottom: 2px solid var(--gold-dark); }
+    thead tr { background: linear-gradient(90deg, var(--fifa-dark) 0%, rgba(18,27,58,0.4) 100%); }
+    thead th { font-family: 'Oswald', sans-serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fifa-cyan); padding: 1.2rem 1.4rem; text-align: left; border-bottom: 2px solid var(--fifa-purple); }
     thead th.center { text-align: center; }
-    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.2s; }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s; }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: rgba(255,255,255,0.05); }
-    tbody tr:nth-child(1) { background: rgba(255,215,0,0.07); }
-    tbody tr:nth-child(2) { background: rgba(192,192,192,0.05); }
-    tbody tr:nth-child(3) { background: rgba(205,127,50,0.05); }
-    td { padding: 1rem 1.2rem; vertical-align: middle; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    
+    /* Pódium customizado FIFA */
+    tbody tr:nth-child(1) { background: rgba(255, 215, 0, 0.04); border-left: 3px solid var(--gold); }
+    tbody tr:nth-child(2) { background: rgba(0, 240, 255, 0.02); border-left: 3px solid var(--fifa-cyan); }
+    tbody tr:nth-child(3) { background: rgba(162, 180, 241, 0.01); border-left: 3px solid #a2b4f1; }
+    
+    td { padding: 1.1rem 1.4rem; vertical-align: middle; }
     td.center { text-align: center; }
-    .rank { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: rgba(255,255,255,0.35); width: 42px; }
-    .rank-1 { color: var(--gold); }
-    .rank-2 { color: #c0c0c0; }
-    .rank-3 { color: #cd7f32; }
+    .rank { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: rgba(255,255,255,0.2); width: 42px; }
+    .rank-1 { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.4); }
+    .rank-2 { color: var(--fifa-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.4); }
+    .rank-3 { color: #a2b4f1; }
     .medal { font-size: 1.3rem; }
-    .player-name { font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em; }
-    .pts-cell { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--gold); text-shadow: 0 0 16px rgba(255,215,0,0.35); letter-spacing: 0.04em; }
-    .stat-badge { display: inline-block; border-radius: 6px; font-family: 'Oswald', sans-serif; font-size: 0.88rem; font-weight: 600; padding: 0.18rem 0.6rem; min-width: 32px; text-align: center; }
-    .badge-exact  { background: rgba(255,215,0,0.18); color: var(--gold); border: 1px solid rgba(255,215,0,0.4); }
-    .badge-winner { background: rgba(42,122,64,0.35);  color: #7ef09b;    border: 1px solid rgba(42,122,64,0.6); }
-    .badge-miss   { background: rgba(192,57,43,0.2);   color: #ff8f80;    border: 1px solid rgba(192,57,43,0.4); }
-    .bar-wrap { background: rgba(255,255,255,0.08); border-radius: 999px; height: 6px; width: 100%; min-width: 80px; }
-    .bar-fill { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--green-mid), var(--gold)); transition: width 0.6s ease; }
+    .player-name { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.02em; }
+    
+    .pts-cell { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--fifa-neon); text-shadow: 0 0 15px rgba(0,255,135,0.4); letter-spacing: 0.04em; }
+    .stat-badge { display: inline-block; border-radius: 6px; font-family: 'Oswald', sans-serif; font-size: 0.88rem; font-weight: 600; padding: 0.2rem 0.6rem; min-width: 32px; text-align: center; }
+    .badge-exact  { background: rgba(255,215,0,0.12); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
+    .badge-winner { background: rgba(0,255,135,0.12);  color: var(--fifa-neon); border: 1px solid rgba(0,255,135,0.3); }
+    .badge-miss   { background: rgba(255,74,74,0.12);   color: #ff8f80;    border: 1px solid rgba(255,74,74,0.3); }
+    
+    .bar-wrap { background: rgba(255,255,255,0.05); border-radius: 999px; height: 6px; width: 100%; min-width: 80px; }
+    .bar-fill { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--fifa-purple), var(--fifa-cyan)); box-shadow: 0 0 8px var(--fifa-cyan); transition: width 0.6s ease; }
 
-    .edit-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); border-radius: 6px; padding: 0.25rem 0.6rem; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
-    .edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+    /* HIGHLIGHTS CARDS */
+    .highlight-card { background: rgba(18, 27, 58, 0.4); border: 1px solid var(--border); border-radius: 16px; padding: 16px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .highlight-title { font-family: 'Oswald', sans-serif; font-size: 0.8rem; text-transform: uppercase; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; margin-bottom: 6px; }
+    .highlight-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--fifa-cyan); line-height: 1; text-shadow: 0 0 12px rgba(0,240,255,0.3); }
+    .highlight-player { font-size: 0.85rem; font-weight: 700; color: #fff; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* Estilos das Divisórias de Rodadas e Grupos */
-    .round-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--gold); letter-spacing: 0.05em; margin: 2rem 0 0.8rem 0; border-bottom: 2px solid rgba(255,215,0,0.3); padding-bottom: 5px; text-transform: uppercase; text-shadow: 1px 2px 0 rgba(0,0,0,0.4); }
-    .group-title { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: #7ef09b; letter-spacing: 0.08em; margin: 1.2rem 0 0.6rem 5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
-    .group-title::before { content: ''; display: inline-block; width: 4px; height: 16px; background: var(--gold); border-radius: 2px; }
+    .edit-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
+    .edit-btn:hover { border-color: var(--fifa-cyan); color: var(--fifa-cyan); background: rgba(0,240,255,0.05); }
 
-    /* Seção de Palpites Pública com Suporte a Bandeiras */
-    #public-bets-section { background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 18px; padding: 1.8rem; backdrop-filter: blur(8px); margin-bottom: 2rem; box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
-    #public-bets-section h2 { font-family: 'Oswald', sans-serif; color: var(--gold); margin-bottom: 1rem; letter-spacing: 0.05em; text-transform: uppercase; font-size: 1.4rem; text-align: center; }
-    .public-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
-    .bet-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s; }
-    .bet-card:hover { transform: translateX(3px); background: rgba(255,255,255,0.06); }
+    .round-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--white); letter-spacing: 0.05em; margin: 2.5rem 0 1rem 0; border-bottom: 2px solid var(--fifa-purple); padding-bottom: 6px; text-transform: uppercase; text-shadow: 0 0 15px rgba(105,16,255,0.3); }
+    .group-title { font-family: 'Oswald', sans-serif; font-size: 1.15rem; color: var(--fifa-neon); letter-spacing: 0.08em; margin: 1.5rem 0 0.8rem 5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .group-title::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--fifa-cyan); border-radius: 2px; box-shadow: 0 0 8px var(--fifa-cyan); }
+
+    /* CHAVEAMENTO MATA MATA */
+    .bracket-wrapper { display: flex; gap: 2rem; overflow-x: auto; padding: 1.5rem 0; align-items: flex-start; }
+    .bracket-column { display: flex; flex-direction: column; gap: 2rem; min-width: 240px; flex: 1; }
+    .bracket-column-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--fifa-cyan); text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 1rem; }
+    .bracket-match-card { background: rgba(18, 27, 58, 0.5); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.4); backdrop-filter: blur(5px); }
+    .bracket-match-card:hover { border-color: var(--fifa-purple); }
+    .bracket-team-row { display: flex; justify-content: space-between; align-items: center; font-family: 'Oswald', sans-serif; font-size: 0.95rem; }
+    .bracket-score-box { background: rgba(105, 16, 255, 0.2); border: 1px solid rgba(105, 16, 255, 0.4); padding: 4px 10px; border-radius: 6px; color: var(--fifa-neon); font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; min-width: 30px; text-align: center; }
+
+    /* PALPITES */
+    #public-bets-section, #bet-panel, #add-player-panel, #games-panel { background: rgba(18, 27, 58, 0.4); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px); margin-bottom: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    #public-bets-section h2, #bet-panel h3, #add-player-panel h3, #games-panel h3 { font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 1.2rem; letter-spacing: 0.06em; text-transform: uppercase; font-size: 1.4rem; border-left: 4px solid var(--fifa-purple); padding-left: 10px; }
+    
+    .public-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 15px; }
+    .bet-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+    .bet-card:hover { background: rgba(255, 255, 255, 0.04); border-color: var(--fifa-cyan); }
     .bet-card-teams { font-family: 'Oswald', sans-serif; font-size: 1.05rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .team-row-display { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
-    .flag-img { width: 24px; height: 16px; object-fit: cover; border-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); }
-    .bet-card-info { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 5px; font-family: 'Inter', sans-serif; }
-    .bet-card-results { display: flex; align-items: center; gap: 12px; font-family: 'Oswald', sans-serif; }
-    .bet-badge-status { padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; text-align: center; min-width: 90px; }
-    .status-exact { background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid var(--gold); }
-    .status-winner { background: rgba(42,122,64,0.35); color: #7ef09b; border: 1px solid #42a25a; }
-    .status-miss { background: rgba(192,57,43,0.25); color: #ff8f80; border: 1px solid var(--red); }
-    .status-waiting { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
-
-    #admin-toggle-wrap { text-align: center; margin-top: 2.5rem; }
-    #admin-toggle-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.3); border-radius: 8px; padding: 0.5rem 1.2rem; font-size: 0.78rem; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; }
-    #admin-toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-    #login-panel { display: none; background: rgba(0,0,0,0.55); border: 1px solid var(--border); border-radius: 14px; padding: 1.6rem; margin-top: 1rem; backdrop-filter: blur(10px); max-width: 360px; margin-left: auto; margin-right: auto; }
-    #login-panel h3 { font-family: 'Oswald', sans-serif; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 1rem; text-align: center; }
-    .field-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-    .field-group label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
-    .field-group input, .field-group select { background: rgba(255,255,255,0.07); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.9rem; color: var(--white); font-size: 0.95rem; outline: none; transition: border 0.2s; }
-    .field-group select option { background: var(--green-deep); color: white; }
-    .field-group input:focus { border-color: var(--gold); }
-    .btn-primary { width: 100%; background: var(--gold); color: var(--green-deep); border: none; border-radius: 8px; padding: 0.75rem; font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; }
-    .btn-primary:hover { background: var(--gold-dark); }
-    .btn-api { width: 100%; background: #2a7a40; color: white; border: none; border-radius: 8px; padding: 0.75rem; font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; margin-bottom: 1rem; box-shadow: 0 0 15px rgba(42,122,64,0.4); }
-    .btn-api:hover { background: #1a5c2a; }
-    #login-error { color: #ff8f80; font-size: 0.82rem; text-align: center; margin-top: 0.5rem; display: none; }
-
-    #edit-modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
-    #edit-modal.open { display: flex; }
-    .modal-box { background: linear-gradient(135deg, var(--green-deep) 0%, #0a2e14 100%); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; width: 90%; max-width: 440px; box-shadow: 0 32px 80px rgba(0,0,0,0.7); }
-    .modal-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 1.2rem; }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem; }
-    .modal-grid .field-group { margin-bottom: 0; }
-    .modal-actions { display: flex; gap: 0.8rem; }
-    .btn-cancel { flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--white); border-radius: 8px; padding: 0.65rem; font-family: 'Oswald', sans-serif; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
-    .btn-cancel:hover { background: rgba(255,255,255,0.14); }
-
-    #add-player-panel, #games-panel, #bet-panel { display: none; margin-top: 1.5rem; background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; max-width: 600px; margin-left: auto; margin-right: auto; backdrop-filter: blur(8px); }
-    #add-player-panel h3, #games-panel h3, #bet-panel h3 { font-family: 'Oswald', sans-serif; color: var(--gold); margin-bottom: 1rem; letter-spacing: 0.08em; }
-    .add-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.6rem; align-items: end; margin-bottom: 1rem;}
     
-    #btn-add-player { background: rgba(255,215,0,0.15); border: 1px solid var(--gold); color: var(--gold); border-radius: 8px; padding: 0.62rem 1rem; font-family: 'Oswald', sans-serif; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.06em; transition: background 0.2s; white-space: nowrap; width: 100%; }
-    #btn-add-player:hover { background: rgba(255,215,0,0.28); }
+    .flag-img { width: 26px; height: 18px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+    .bet-card-info { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 5px; font-family: 'Inter', sans-serif; }
+    .bet-card-results { display: flex; align-items: center; gap: 14px; font-family: 'Oswald', sans-serif; }
+    
+    .bet-badge-status { padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; text-align: center; min-width: 110px; letter-spacing: 0.04em; }
+    .status-exact { background: rgba(255, 215, 0, 0.15); color: var(--gold); border: 1px solid var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
+    .status-winner { background: rgba(0, 255, 135, 0.15); color: var(--fifa-neon); border: 1px solid var(--fifa-neon); }
+    .status-miss { background: rgba(255, 74, 74, 0.15); color: #ff8f80; border: 1px solid var(--red); }
+    .status-waiting { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); }
 
-    .bet-matrix-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; }
-    .bet-matrix-table th { background: rgba(255,215,0,0.1); color: var(--gold); padding: 8px; font-size: 0.8rem; text-transform: uppercase; font-family: 'Oswald', sans-serif; }
-    .bet-matrix-table td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-    .input-score { width: 50px; padding: 5px; text-align: center; background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: white; border-radius: 6px; font-weight: bold; }
-    .input-score:focus { border-color: var(--gold); outline: none; }
+    /* CONTROLES E INPUTS */
+    #login-panel { background: rgba(10, 5, 27, 0.85); border: 1px solid var(--fifa-cyan); border-radius: 16px; padding: 1.8rem; margin: 1rem auto; backdrop-filter: blur(15px); max-width: 380px; box-shadow: 0 0 40px rgba(0, 240, 255, 0.2); }
+    #login-panel h3 { font-family: 'Oswald', sans-serif; color: var(--white); letter-spacing: 0.1em; margin-bottom: 1.2rem; text-align: center; text-transform: uppercase; }
+    
+    .field-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .field-group label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 600; }
+    .field-group input, .field-group select { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 1rem; color: var(--white); font-size: 0.95rem; outline: none; transition: border 0.2s; }
+    .field-group select option { background: var(--fifa-bg); color: white; }
+    .field-group input:focus, .field-group select:focus { border-color: var(--fifa-cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+    
+    .btn-primary { width: 100%; background: linear-gradient(90deg, var(--fifa-neon), #00c768); color: var(--fifa-bg); border: none; border-radius: 10px; padding: 0.85rem; font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 255, 135, 0.4); }
+    
+    .btn-api { width: 100%; background: linear-gradient(90deg, var(--fifa-purple), #4500b5); color: white; border: none; border-radius: 10px; padding: 0.85rem; font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(105, 16, 255, 0.3); }
+    .btn-api:hover { box-shadow: 0 6px 25px rgba(105, 16, 255, 0.5); }
+    #login-error { color: var(--red); font-size: 0.85rem; text-align: center; margin-top: 0.6rem; display: none; }
 
-    .matrix-section-row { background: rgba(255,215,0,0.04) !important; font-family: 'Oswald', sans-serif; font-size: 0.8rem !important; color: #7ef09b; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,215,0,0.15) !important; }
+    /* MODAL */
+    #edit-modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5, 2, 15, 0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; }
+    #edit-modal.open { display: flex; }
+    .modal-box { background: radial-gradient(circle at 50% 0%, var(--fifa-dark) 0%, var(--fifa-bg) 100%); border: 1px solid var(--fifa-purple); border-radius: 24px; padding: 2.2rem; width: 90%; max-width: 460px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
+    .modal-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white); letter-spacing: 0.06em; margin-bottom: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.4rem; }
+    .modal-grid .field-group { margin-bottom: 0; }
+    .modal-actions { display: flex; gap: 1rem; }
+    .btn-cancel { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--white); border-radius: 10px; padding: 0.75rem; font-family: 'Oswald', sans-serif; font-size: 0.95rem; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+    .btn-cancel:hover { background: rgba(255,255,255,0.1); }
 
-    footer { position: relative; z-index: 1; text-align: center; padding: 2rem 1rem; color: rgba(255,255,255,0.2); font-size: 0.75rem; letter-spacing: 0.08em; }
-    @media(max-width: 600px) { thead th.hide-sm, td.hide-sm { display: none; } .pts-cell { font-size: 1.4rem; } }
+    .jogo-card { background: rgba(18, 27, 58, 0.4); padding: 14px 18px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    
+    .bet-matrix-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; }
+    .bet-matrix-table th { background: rgba(105, 16, 255, 0.15); color: var(--fifa-cyan); padding: 10px; font-size: 0.8rem; text-transform: uppercase; font-family: 'Oswald', sans-serif; letter-spacing: 0.05em; }
+    .bet-matrix-table td { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.95rem; }
+    .input-score { width: 50px; padding: 6px; text-align: center; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: white; border-radius: 6px; font-weight: bold; font-family: 'Oswald', sans-serif; font-size: 1rem; }
+    .input-score:focus { border-color: var(--fifa-cyan); outline: none; }
+
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 1rem; color: rgba(255,255,255,0.2); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Oswald', sans-serif; }
+    
+    .btn-toggle-central {
+      width: 100%; background: rgba(18, 27, 58, 0.6); border: 1px solid var(--border); color: var(--fifa-cyan);
+      font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 0.9rem 1.2rem; border-radius: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(5px);
+    }
+    .btn-toggle-central:hover { border-color: var(--fifa-cyan); color: var(--white); }
+    .central-content-wrapper { display: block; margin-top: 15px; }
+    
+    .jogos-bloco { margin-bottom: 20px; background: rgba(10, 5, 27, 0.4); border: 1px solid var(--border); backdrop-filter: blur(10px); border-radius: 16px; padding: 16px; }
+    .jogos-bloco h3 { font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; color: var(--fifa-neon); }
+    
+    #admin-toggle-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); border-radius: 10px; padding: 0.6rem 1.2rem; font-family: 'Oswald', sans-serif; cursor: pointer; font-size: 0.9rem; text-transform: uppercase; transition: all 0.2s; width: 100%; max-width: 260px; margin: 0 auto; display: block; }
+    #admin-toggle-btn:hover { border-color: var(--fifa-cyan); color: var(--fifa-cyan); }
+
+    @media(min-width: 768px) { .nav-menus { justify-content: center; padding-bottom: 0; } }
+    @media(max-width: 600px) { thead th.hide-sm, td.hide-sm { display: none; } .pts-cell { font-size: 1.6rem; } }
   </style>
 </head>
 
 <body>
 
 <header>
-  <span class="trophy-icon">🏆</span>
-  <div class="site-title">Bolão da Copa</div>
-  <div class="site-sub">Ranking Oficial · Empresa</div>
-  <div class="legend-pills">
-    <div class="pill"><span class="dot dot-gold"></span>Placar exato — 3 pts</div>
-    <div class="pill"><span class="dot dot-green"></span>Acertou vencedor — 1 pt</div>
-    <div class="pill"><span class="dot dot-red"></span>Errou — 0 pts</div>
+  <div class="logo-container">
+    <span class="trophy-icon">🏆</span>
+    <span class="logo-26">26</span>
   </div>
+  <div class="site-title">FIFA World Cup 2026</div>
+  <div class="site-sub">Plataforma Oficial de Palpites</div>
 </header>
 
+<nav class="nav-menus">
+  <button class="menu-btn active" onclick="switchTab('tabela', this)">🏆 Classificação</button>
+  <button class="menu-btn" onclick="switchTab('jogos', this)">📅 Partidas</button>
+  <button class="menu-btn" onclick="switchTab('palpitar', this)">📝 Palpitar</button>
+  <button class="menu-btn" onclick="switchTab('consultar', this)">🔍 Consultar</button>
+  <button class="menu-btn" onclick="switchTab('admin', this)">⚙️ Painel</button>
+</nav>
+
 <main>
-  <div class="table-wrap">
-    <table id="ranking-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Participante</th>
-          <th class="center">Pts</th>
-          <th class="center hide-sm">🎯 Exatos</th>
-          <th class="center hide-sm">✅ Vencedor</th>
-          <th class="center hide-sm">❌ Erros</th>
-          <th class="center hide-sm">Desempenho</th>
-          <th class="center" id="action-col" style="display:none">Editar</th>
-        </tr>
-      </thead>
-      <tbody id="ranking-body"></tbody>
-    </table>
-  </div>
 
-  <div id="public-bets-section">
-    <h2>🔍 Consultar Palpites Realizados</h2>
-    <div class="field-group" style="max-width: 400px; margin: 0 auto 15px auto;">
-      <label style="text-align: center; display: block;">Escolha um Participante para ver o histórico</label>
-      <select id="public-player-select" onchange="loadPublicPlayerBets()">
-        <option value="">Selecione...</option>
-      </select>
+  <!-- TABELA GERAL -->
+  <div id="menu-tabela" class="tab-content active">
+    <div class="legend-pills">
+      <div class="pill"><span class="dot dot-gold"></span>Placar Exato (3 pts)</div>
+      <div class="pill"><span class="dot dot-green"></span>Resultado (1 pt)</div>
+      <div class="pill"><span class="dot dot-red"></span>Errou (0 pts)</div>
     </div>
-    <div id="public-bets-container" class="public-grid">
-      <p style="text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem;">Escolha um participante acima para analisar o desempenho de cada palpite.</p>
-    </div>
-  </div>
-
-  <div id="admin-toggle-wrap">
-    <button id="admin-toggle-btn" onclick="toggleLogin()">⚙ Área do Administrador</button>
-  </div>
-
-  <div id="login-panel">
-    <h3>🔐 Acesso Admin</h3>
-    <div class="field-group">
-      <label>Senha</label>
-      <input type="password" id="admin-password" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()"/>
-    </div>
-    <button class="btn-primary" onclick="doLogin()">Entrar</button>
-    <div id="login-error">Senha incorreta. Tente novamente.</div>
-  </div>
-
-  <div id="add-player-panel">
-    <h3>➕ Adicionar Participante</h3>
-    <div class="add-grid">
-      <div class="field-group" style="grid-column: span 2;">
-        <label>Nome</label>
-        <input type="text" id="new-name" placeholder="Nome completo"/>
-      </div>
-      <div class="field-group">
-        <label>🎯 Exatos</label>
-        <input type="number" id="new-exact" min="0" value="0"/>
-      </div>
-      <div class="field-group">
-        <label>✅ Vencedor</label>
-        <input type="number" id="new-winner" min="0" value="0"/>
-      </div>
-      <div class="field-group">
-        <label>❌ Erros</label>
-        <input type="number" id="new-miss" min="0" value="0"/>
-      </div>
-    </div>
-    <button id="btn-add-player" onclick="addPlayer()">Adicionar Participante</button>
-  </div>
-
-  <div id="games-panel">
-    <button class="btn-api" onclick="syncResultsFromAPI()">🔄 Atualizar Resultados via SofaScore</button>
-
-    <h3>⚽ Gerenciar Jogos</h3>
-    <div class="add-grid">
-      <div class="field-group">
-        <label>Time A</label>
-        <input type="text" id="game-team-a" placeholder="Brasil">
-      </div>
-      <div class="field-group">
-        <label>Time B</label>
-        <input type="text" id="game-team-b" placeholder="Marrocos">
-      </div>
-      <div class="field-group">
-        <label>Rodada</label>
-        <input type="number" id="game-round" value="1" min="1">
-      </div>
-    </div>
-    <button class="btn-primary" onclick="addGame()">➕ Adicionar Jogo Manual</button>
-    <hr style="margin:20px 0; border: 0; border-top: 1px solid var(--border);">
-    <h3>📋 Jogos Cadastrados (Organizados por Rodada e Grupo)</h3>
-    <div id="games-list"></div>
-  </div>
-
-  <div id="bet-panel">
-    <h3>📝 Cadastrar Palpites em Massa (Ordenados por Rodada/Grupo)</h3>
-    <div class="field-group" style="max-width: 100%; margin-bottom: 15px;">
-      <label>Selecionar Participante</label>
-      <select id="bet-player" onchange="renderBetMatrix()"></select>
-    </div>
-    
-    <div style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
-      <table class="bet-matrix-table">
+    <div class="table-wrap">
+      <table id="ranking-table">
         <thead>
           <tr>
-            <th>Jogo</th>
-            <th style="text-align: center; width: 140px;">Palpite</th>
+            <th>Pos</th>
+            <th>Participante</th>
+            <th class="center">Pts</th>
+            <th class="center hide-sm">🎯 Cravados</th>
+            <th class="center hide-sm">✅ Vencedor</th>
+            <th class="center hide-sm">❌ Erros</th>
+            <th class="center hide-sm">Desempenho</th>
+            <th class="center" id="action-col" style="display:none">Ações</th>
           </tr>
         </thead>
-        <tbody id="bet-matrix-body"></tbody>
+        <tbody id="ranking-body"></tbody>
       </table>
     </div>
-    
-    <button class="btn-primary" onclick="saveAllBets()">💾 Salvar Todos os Palpites</button>
+
+    <div id="ranking-highlights" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 2rem;"></div>
+  </div>
+
+  <!-- VISUALIZAR JOGOS (MODO LEITURA PURO) -->
+  <div id="menu-jogos" class="tab-content">
+    <section style="max-width: 900px; margin: 0 auto 20px auto;">
+      <button class="btn-toggle-central" onclick="toggleCentralJogos()">
+        <span>🌎 LIVE MATCH MONITOR</span>
+        <span class="arrow-icon" id="central-arrow">▼</span>
+      </button>
+
+      <div class="central-content-wrapper" id="central-content">
+        <div class="jogos-bloco" style="margin-top: 10px;">
+          <h3>🔴 LIVE AGORA</h3>
+          <div id="jogosAoVivo"></div>
+        </div>
+        <div class="jogos-bloco">
+          <h3>📅 PRÓXIMOS CONFRONTOS</h3>
+          <div id="jogosHoje"></div>
+        </div>
+        <div class="jogos-bloco">
+          <h3>✅ ENCERRADOS</h3>
+          <div id="jogosFinalizados"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="round-title">⚽ FASE DE GRUPOS</div>
+    <div id="groups-stage-container"></div>
+
+    <div class="round-title">📊 CHAVEAMENTO ELIMINATÓRIO</div>
+    <div class="bracket-wrapper" id="knockout-bracket-container"></div>
+  </div>
+
+  <!-- FAZER PALPITES -->
+  <div id="menu-palpitar" class="tab-content">
+    <div id="bet-panel">
+      <h3>📝 CADASTRAR MEUS PALPITES</h3>
+      <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem;">Os palpites fecham automaticamente antes do início de cada rodada. Garanta os seus pontos!</p>
+      <div class="add-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+        <div class="field-group">
+          <label>Selecione Seu Nome</label>
+          <select id="bet-player" onchange="renderBetMatrix()"></select>
+        </div>
+        <div class="field-group">
+          <label>Senha de Validação</label>
+          <input type="password" id="bet-player-password" placeholder="Sua senha secreta">
+        </div>
+      </div>
+      
+      <div style="max-height: 500px; overflow-y: auto; margin-bottom: 20px; border-radius: 12px; border: 1px solid var(--border);">
+        <table class="bet-matrix-table" style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>Confronto</th>
+              <th style="text-align: center; width: 140px;">Placar</th>
+            </tr>
+          </thead>
+          <tbody id="bet-matrix-body"></tbody>
+        </table>
+      </div>
+      
+      <button class="btn-primary" onclick="saveAllBets()">💾 Enviar Palpites Oficial</button>
+    </div>
+  </div>
+
+  <!-- CONSULTAR PALPITES -->
+  <div id="menu-consultar" class="tab-content">
+    <div id="public-bets-section">
+      <h2>🔍 HISTÓRICO DE PALPITES</h2>
+      <div class="field-group" style="max-width: 400px; margin: 0 auto 1.5rem auto;">
+        <label style="text-align: center; display: block;">Selecione um participante para ver a lista de apostas</label>
+        <select id="public-player-select" onchange="loadPublicPlayerBets()">
+          <option value="">Selecione...</option>
+        </select>
+      </div>
+
+      <div id="player-stats-summary"></div>
+      <div id="public-bets-container">
+        <p style="text-align: center; color: rgba(255,255,255,0.3); font-size: 0.95rem;">Selecione um jogador acima para expandir os relatórios de acertos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMINISTRAÇÃO (CONGRESSO DE GERENCIAMENTO REAL) -->
+  <div id="menu-admin" class="tab-content">
+    <div id="admin-toggle-wrap">
+      <button id="admin-toggle-btn" onclick="toggleLogin()">⚙️ Autenticação Admin</button>
+    </div>
+
+    <div id="login-panel" style="display:none;">
+      <h3>🔐 Painel de Controle</h3>
+      <div class="field-group">
+        <label>Chave do Administrador</label>
+        <input type="password" id="admin-password" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()"/>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Autenticar</button>
+      <div id="login-error">Acesso negado. Chave incorreta.</div>
+    </div>
+
+    <div id="add-player-panel" style="display:none;">
+      <h3>➕ Novo Participante</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="field-group" style="grid-column: span 2;">
+          <label>Nome do Jogador</label>
+          <input type="text" id="new-name" placeholder="Ex: Felipe Prado"/>
+        </div>
+        <div class="field-group" style="grid-column: span 2;">
+          <label>Senha Privada</label>
+          <input type="password" id="new-password" placeholder="Para ele fazer palpites"/>
+        </div>
+        <div class="field-group">
+          <label>🎯 Exatos</label>
+          <input type="number" id="new-exact" min="0" value="0"/>
+        </div>
+        <div class="field-group">
+          <label>✅ Resultado</label>
+          <input type="number" id="new-winner" min="0" value="0"/>
+        </div>
+        <div class="field-group">
+          <label>❌ Erros</label>
+          <input type="number" id="new-miss" min="0" value="0"/>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addPlayer()">Adicionar na Copa</button>
+    </div>
+
+    <div id="games-panel" style="display:none;">
+      <button class="btn-api" onclick="syncResultsFromAPI()">🔄 API Sync Automático</button>
+      <h3>⚽ Cadastrar Nova Partida</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+        <div class="field-group">
+          <label>Seleção A</label>
+          <input type="text" id="game-team-a" placeholder="Brasil">
+        </div>
+        <div class="field-group">
+          <label>Seleção B</label>
+          <input type="text" id="game-team-b" placeholder="França">
+        </div>
+        <div class="field-group">
+          <label>Etapa da Competição</label>
+          <select id="game-round">
+            <option value="1">Grupos - Rodada 1</option>
+            <option value="2">Grupos - Rodada 2</option>
+            <option value="3">Grupos - Rodada 3</option>
+            <option value="16-Avos">16-Avos de Final</option>
+            <option value="Oitavas">Oitavas de Final</option>
+            <option value="Quartas">Quartas de Final</option>
+            <option value="Semi">Semifinais</option>
+            <option value="Final">Grande Final</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Data</label>
+          <input type="date" id="game-date">
+        </div>
+        <div class="field-group">
+          <label>Horário</label>
+          <input type="time" id="game-time">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addGame()">Inserir Confronto</button>
+      
+      <hr style="margin:2rem 0; border:0; border-top:1px solid var(--border);">
+      
+      <h3>📋 GERENCIAR RESULTADOS REAIS</h3>
+      <p style="font-size:0.85rem; color:rgba(255,255,255,0.5); margin-bottom:1rem;">Preencha o placar oficial das partidas em andamento e salve para rodar o cálculo automático de pontos de todos os participantes.</p>
+      <div id="games-list"></div>
+    </div>
   </div>
 </main>
 
 <div id="edit-modal">
   <div class="modal-box">
-    <h3 id="modal-title">Editar Participante</h3>
+    <h3 id="modal-title">Modificar Inscrição</h3>
     <div class="modal-grid">
       <div class="field-group" style="grid-column:1/-1">
-        <label>Nome</label>
+        <label>Nome do Participante</label>
         <input type="text" id="modal-name"/>
       </div>
+      <div class="field-group" style="grid-column:1/-1">
+        <label>Alterar Senha</label>
+        <input type="text" id="modal-password" placeholder="Manter atual se em branco"/>
+      </div>
       <div class="field-group">
-        <label>🎯 Placar exato (3 pts)</label>
+        <label>🎯 Cravados (3 pts)</label>
         <input type="number" id="modal-exact" min="0"/>
       </div>
       <div class="field-group">
-        <label>✅ Acertou vencedor (1 pt)</label>
+        <label>✅ Vencedor (1 pt)</label>
         <input type="number" id="modal-winner" min="0"/>
       </div>
       <div class="field-group">
@@ -310,23 +504,53 @@
         <input type="number" id="modal-miss" min="0"/>
       </div>
       <div class="field-group" style="display:flex;align-items:flex-end;">
-        <button onclick="deletePlayer()" style="width:100%;background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.5);color:#ff8f80;border-radius:8px;padding:0.62rem;font-family:'Oswald',sans-serif;font-size:0.9rem;cursor:pointer;letter-spacing:0.05em;">🗑 Remover</button>
+        <button onclick="deletePlayer()" style="width:100%; background:rgba(255,74,74,0.15); border:1px solid var(--red); color:#ff8f80; border-radius:10px; padding:0.75rem; font-family:'Oswald',sans-serif; text-transform:uppercase; font-size:0.9rem; cursor:pointer;">Remover</button>
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-primary" onclick="saveEdit()">Salvar Alterações</button>
+      <button class="btn-cancel" onclick="closeModal()">Voltar</button>
+      <button class="btn-primary" onclick="saveEdit()">Atualizar</button>
     </div>
   </div>
 </div>
 
-<footer>⚽ Bolão da Copa · Atualizado em tempo real</footer>
+<footer>FIFA World Cup 2026™ Hub · All Rights Reserved</footer>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
   import {
     getFirestore, collection, addDoc, getDocs, getDoc, deleteDoc, doc, onSnapshot, updateDoc, query, where
   } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  function getRoundText(r) {
+    const mapping = {
+      "1": "1ª Rodada (Grupos)", "2": "2ª Rodada (Grupos)", "3": "3ª Rodada (Grupos)",
+      "16-Avos": "16-Avos de Final", "Oitavas": "Oitavas de Final", "Quartas": "Quartas de Final",
+      "Semi": "Semifinais", "Final": "Grande Final"
+    };
+    return mapping[r] || `Rodada ${r}`;
+  }
+
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('active'));
+    
+    const targetTab = document.getElementById(`menu-${tabId}`);
+    if (targetTab) targetTab.classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function toggleCentralJogos() {
+    const content = document.getElementById("central-content");
+    const arrow = document.getElementById("central-arrow");
+    if(content.style.display === "none") {
+      content.style.display = "block";
+      arrow.textContent = "▲";
+    } else {
+      content.style.display = "none";
+      arrow.textContent = "▼";
+    }
+  }
 
   const firebaseConfig = {
     apiKey: "AIzaSyDXKRI9-ddGS4UHGyhzGqigNupWKgoKDpM",
@@ -339,7 +563,6 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
   const ADMIN_PASSWORD = "copa2026";
   
   let players = [];
@@ -347,7 +570,6 @@
   let editIndex = null;
   let localGames = [];
 
-  // Mapeamento dos grupos
   const TEAM_GROUPS = {
     "méxico": "Grupo A", "mexico": "Grupo A", "áfrica do sul": "Grupo A", "africa do sul": "Grupo A", "coreia do sul": "Grupo A", "repescagem europeia a": "Grupo A",
     "canadá": "Grupo B", "canada": "Grupo B", "repescagem europeia b": "Grupo B", "qatar": "Grupo B", "suíça": "Grupo B", "suica": "Grupo B",
@@ -360,10 +582,9 @@
     "frança": "Grupo I", "franca": "Grupo I", "senegal": "Grupo I", "repescagem mundial i": "Grupo I", "noruega": "Grupo I",
     "argentina": "Grupo J", "argélia": "Grupo J", "argelia": "Grupo J", "áustria": "Grupo J", "austria": "Grupo J", "jordânia": "Grupo J", "jordania": "Grupo J",
     "portugal": "Grupo K", "repescagem mundial k": "Grupo K", "uzbequistão": "Grupo K", "uzbequistao": "Grupo K", "colômbia": "Grupo K", "colombia": "Grupo K",
-    "inglaterra": "Grupo L", "croácia": "Grupo L", "croacia": "Grupo L", "gana": "Grupo L", "panamá": "Grupo L", "panamá": "Grupo L"
+    "inglaterra": "Grupo L", "croácia": "Grupo L", "croacia": "Grupo L", "gana": "Grupo L", "panamá": "Grupo L"
   };
 
-  // Mapeamento de ISO do FlagCDN para renderização automática das bandeiras
   const COUNTRY_FLAGS = {
     "brasil": "br", "marrocos": "ma", "haiti": "ht", "escócia": "gb-sct", "escocia": "gb-sct",
     "méxico": "mx", "mexico": "mx", "áfrica do sul": "za", "africa do sul": "za", "coreia do sul": "kr",
@@ -380,23 +601,17 @@
   };
 
   function getFlagHTML(teamName) {
+    if (!teamName) return `<div class="flag-img" style="background: rgba(255,255,255,0.1); display: inline-block;"></div>`;
     const key = teamName.toLowerCase().trim();
-    if (COUNTRY_FLAGS[key]) {
-      return `<img src="https://flagcdn.com/w40/${COUNTRY_FLAGS[key]}.png" class="flag-img" alt="${teamName}">`;
-    }
-    // Caso seja repescagem ou nome customizado, gera uma bandeira genérica cinza
-    return `<div class="flag-img" style="background: rgba(255,255,255,0.2); display: inline-block;"></div>`;
+    return COUNTRY_FLAGS[key] ? `<img src="https://flagcdn.com/w40/${COUNTRY_FLAGS[key]}.png" class="flag-img" alt="${teamName}">` : `<div class="flag-img" style="background: rgba(255,255,255,0.1); display: inline-block;"></div>`;
   }
 
   function getGameGroup(teamA, teamB) {
-    const tA = teamA.toLowerCase().trim();
-    const tB = teamB.toLowerCase().trim();
-    if (TEAM_GROUPS[tA]) return TEAM_GROUPS[tA];
-    if (TEAM_GROUPS[tB]) return TEAM_GROUPS[tB];
-    return "Fase de Grupos";
+    const tA = teamA ? teamA.toLowerCase().trim() : "";
+    const tB = teamB ? teamB.toLowerCase().trim() : "";
+    return TEAM_GROUPS[tA] || TEAM_GROUPS[tB] || "Eliminatórias";
   }
 
-  // Realtime Ranking Loader
   function startRealtimeRanking() {
     onSnapshot(collection(db, "participantes"), (snapshot) => {
       players = [];
@@ -427,7 +642,7 @@
 
     const maxPts = Math.max(...sorted.map(p => p.pts), 1);
     const tbody = document.getElementById("ranking-body");
-    tbody.innerHTML = "";
+    if (!tbody) return; tbody.innerHTML = "";
 
     sorted.forEach((p, rank) => {
       const pct = Math.round((p.pts / maxPts) * 100);
@@ -446,14 +661,60 @@
         <td class="center hide-sm">
           <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div>
         </td>
-        ${isAdmin ? `<td class="center"><button class="edit-btn" onclick="openEdit(${p._orig})">✏ Editar</button></td>` : ''}
+        ${isAdmin ? `<td class="center"><button class="edit-btn" onclick="openEdit(${p._orig})">✏️ Ajustar</button></td>` : ''}
       `;
       tbody.appendChild(tr);
     });
     document.getElementById("action-col").style.display = isAdmin ? "" : "none";
+
+    const highlightsDiv = document.getElementById("ranking-highlights");
+    if(highlightsDiv && players.length > 0) {
+      let maxExact = -1, maxWinner = -1, maxMiss = -1, maxAprov = -1;
+      let pExact = [], pWinner = [], pMiss = [], pAprov = [];
+      const totalFinalized = localGames.filter(g => g.finalizado).length;
+
+      players.forEach(p => {
+        const pts = calcPoints(p);
+        const aprovVal = totalFinalized > 0 ? (pts / (totalFinalized * 3)) * 100 : 0;
+
+        if (p.exact > maxExact) { maxExact = p.exact; pExact = [p.name]; }
+        else if (p.exact === maxExact && maxExact >= 0) { pExact.push(p.name); }
+
+        if (p.winner > maxWinner) { maxWinner = p.winner; pWinner = [p.name]; }
+        else if (p.winner === maxWinner && maxWinner >= 0) { pWinner.push(p.name); }
+
+        if (p.miss > maxMiss) { maxMiss = p.miss; pMiss = [p.name]; }
+        else if (p.miss === maxMiss && maxMiss >= 0) { pMiss.push(p.name); }
+
+        if (aprovVal > maxAprov) { maxAprov = aprovVal; pAprov = [p.name]; }
+        else if (aprovVal === maxAprov && maxAprov >= 0) { pAprov.push(p.name); }
+      });
+
+      highlightsDiv.innerHTML = `
+        <div class="highlight-card">
+          <div class="highlight-title">🎯 Líder em Cravadas</div>
+          <div class="highlight-value">${maxExact >= 0 ? maxExact : 0}</div>
+          <div class="highlight-player" title="${pExact.join(', ')}">${pExact.length > 0 ? pExact.join(', ') : '-'}</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-title">✅ Acertos Secos</div>
+          <div class="highlight-value">${maxWinner >= 0 ? maxWinner : 0}</div>
+          <div class="highlight-player" title="${pWinner.join(', ')}">${pWinner.join(', ')}</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-title">❌ Lanterna de Erros</div>
+          <div class="highlight-value">${maxMiss >= 0 ? maxMiss : 0}</div>
+          <div class="highlight-player" title="${pMiss.join(', ')}">${pMiss.join(', ')}</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-title">📈 Rendimento Fiel</div>
+          <div class="highlight-value">${maxAprov >= 0 ? maxAprov.toFixed(1) + '%' : '0%'}</div>
+          <div class="highlight-player" title="${pAprov.join(', ')}">${pAprov.join(', ')}</div>
+        </div>
+      `;
+    }
   }
 
-  // Auth Functions
   function toggleLogin() {
     if (isAdmin) { logout(); return; }
     const panel = document.getElementById("login-panel");
@@ -466,16 +727,10 @@
     if (pw === ADMIN_PASSWORD) {
       isAdmin = true;
       document.getElementById("login-panel").style.display = "none";
-      document.getElementById("bet-panel").style.display = "block";
       document.getElementById("add-player-panel").style.display = "block";
       document.getElementById("games-panel").style.display = "block";
-      document.getElementById("admin-toggle-btn").textContent = "🔓 Sair do modo admin";
-      document.getElementById("admin-toggle-btn").style.color = "var(--gold)";
-      document.getElementById("admin-toggle-btn").style.borderColor = "var(--gold)";
-      document.getElementById("login-error").style.display = "none";
-      document.getElementById("admin-password").value = "";
+      document.getElementById("admin-toggle-btn").textContent = "🔒 Encerrar Sessão Admin";
       renderTable();
-      renderBetMatrix();
       renderOrganizedGames();
     } else {
       document.getElementById("login-error").style.display = "block";
@@ -486,460 +741,397 @@
     isAdmin = false;
     document.getElementById("add-player-panel").style.display = "none";
     document.getElementById("games-panel").style.display = "none";
-    document.getElementById("bet-panel").style.display = "none";
-    document.getElementById("admin-toggle-btn").textContent = "⚙ Área do Administrador";
-    document.getElementById("admin-toggle-btn").style.color = "";
-    document.getElementById("admin-toggle-btn").style.borderColor = "";
+    document.getElementById("admin-toggle-btn").textContent = "⚙️ Autenticação Admin";
     renderTable();
+    renderOrganizedGames();
   }
 
-  // Player Operations
   async function addPlayer() {
+    if (!isAdmin) { alert("Acesso negado."); return; }
     const name = document.getElementById("new-name").value.trim();
-    if (!name) { alert("Informe o nome do participante."); return; }
+    const pass = document.getElementById("new-password").value.trim();
+    if (!name || !pass) { alert("Nome e senha obrigatórios."); return; }
     try {
       await addDoc(collection(db, "participantes"), {
-        nome: name, exatos: Number(document.getElementById("new-exact").value || 0),
+        nome: name, senha: pass,
+        exatos: Number(document.getElementById("new-exact").value || 0),
         vencedores: Number(document.getElementById("new-winner").value || 0),
         erros: Number(document.getElementById("new-miss").value || 0)
       });
-      alert("Participante cadastrado!");
-      document.getElementById("new-name").value = "";
-    } catch (error) { alert("Erro ao salvar no Firebase."); }
+      alert("Sucesso!");
+    } catch (e) { alert("Erro."); }
   }
 
-  function openEdit(idx) {
+  async function openEdit(idx) {
+    if (!isAdmin) return;
     editIndex = idx; const p = players[idx];
     document.getElementById("modal-name").value = p.name;
     document.getElementById("modal-exact").value = p.exact;
     document.getElementById("modal-winner").value = p.winner;
     document.getElementById("modal-miss").value = p.miss;
-    document.getElementById("modal-title").textContent = "✏ Editar · " + p.name;
     document.getElementById("edit-modal").classList.add("open");
   }
-  function closeModal() { document.getElementById("edit-modal").classList.remove("open"); editIndex = null; }
+
+  function closeModal() { document.getElementById("edit-modal").classList.remove("open"); }
 
   async function saveEdit() {
-    if (editIndex === null) return;
+    if (!isAdmin) { alert("Acesso negado."); return; }
     const player = players[editIndex];
     try {
       await updateDoc(doc(db, "participantes", player.firebaseId), {
         nome: document.getElementById("modal-name").value.trim(),
-        exatos: Math.max(0, parseInt(document.getElementById("modal-exact").value) || 0),
-        vencedores: Math.max(0, parseInt(document.getElementById("modal-winner").value) || 0),
-        erros: Math.max(0, parseInt(document.getElementById("modal-miss").value) || 0),
+        exatos: parseInt(document.getElementById("modal-exact").value) || 0,
+        vencedores: parseInt(document.getElementById("modal-winner").value) || 0,
+        erros: parseInt(document.getElementById("modal-miss").value) || 0,
       });
-      closeModal(); alert("Participante atualizado!");
-    } catch (e) { alert("Erro ao atualizar!"); }
+      closeModal(); alert("Modificado!");
+    } catch (e) { alert("Erro."); }
   }
 
   async function deletePlayer() {
-    if (editIndex === null) return;
-    const player = players[editIndex];
-    if (!confirm(`Remover "${player.name}"?`)) return;
-    try { await deleteDoc(doc(db, "participantes", player.firebaseId)); closeModal(); alert("Removido!"); } catch (e) { alert("Erro."); }
+    if (!isAdmin) { alert("Acesso negado."); return; }
+    if (!confirm("Deletar permanentemente?")) return;
+    await deleteDoc(doc(db, "participantes", players[editIndex].firebaseId));
+    closeModal();
   }
 
-  // Games Operations
   async function addGame() {
+    if (!isAdmin) { alert("Acesso negado."); return; }
     const teamA = document.getElementById("game-team-a").value.trim();
     const teamB = document.getElementById("game-team-b").value.trim();
-    const round = Number(document.getElementById("game-round").value);
-    if (!teamA || !teamB) { alert("Informe os dois times."); return; }
-    try {
-      await addDoc(collection(db, "jogos"), { timeA: teamA, timeB: teamB, rodada: round, golsA: null, golsB: null, finalizado: false });
-      document.getElementById("game-team-a").value = ""; document.getElementById("game-team-b").value = ""; alert("Jogo cadastrado!");
-    } catch (e) { alert("Erro ao cadastrar jogo."); }
-  }
-
-  async function removerJogo(jogoId) {
-    if (!confirm("Tem certeza que deseja deletar este jogo permanentemente do sistema?")) return;
-    try {
-      await deleteDoc(doc(db, "jogos", jogoId));
-      alert("Jogo removido com sucesso!");
-    } catch (e) { alert("Erro ao remover o jogo."); }
+    const round = document.getElementById("game-round").value;
+    if (!teamA || !teamB) { alert("Preencha as seleções."); return; }
+    await addDoc(collection(db, "jogos"), { 
+      timeA: teamA, timeB: teamB, rodada: round,
+      dataInicio: document.getElementById("game-date").value || null,
+      horaInicio: document.getElementById("game-time").value || null,
+      golsA: null, golsB: null, finalizado: false 
+    });
+    alert("Partida Inserida!");
   }
 
   function startRealtimeGames() {
     onSnapshot(collection(db, "jogos"), (snapshot) => {
       localGames = [];
-      snapshot.forEach((gameDoc) => {
-        const game = gameDoc.data();
-        localGames.push({ id: gameDoc.id, ...game });
-      });
+      snapshot.forEach((gameDoc) => { localGames.push({ id: gameDoc.id, ...gameDoc.data() }); });
       renderOrganizedGames();
       renderBetMatrix();
-      if(document.getElementById("public-player-select").value) {
-        loadPublicPlayerBets();
-      }
+      atualizarCentralJogosVisual();
+      renderTable();
     });
   }
 
   function renderOrganizedGames() {
-    const container = document.getElementById("games-list");
-    if (!container) return;
-    container.innerHTML = "";
+    const groupContainer = document.getElementById("groups-stage-container");
+    const bracketContainer = document.getElementById("knockout-bracket-container");
+    const adminList = document.getElementById("games-list");
+    
+    if(groupContainer) groupContainer.innerHTML = "";
+    if(bracketContainer) bracketContainer.innerHTML = "";
+    if(adminList) adminList.innerHTML = "";
 
-    if (localGames.length === 0) {
-      container.innerHTML = `<p style="color: rgba(255,255,255,0.4)">Nenhum jogo cadastrado no sistema.</p>`;
-      return;
-    }
+    const KO_ROUNDS = ["16-Avos", "Oitavas", "Quartas", "Semi", "Final"];
+    const koGamesByRound = { "16-Avos": [], "Oitavas": [], "Quartas": [], "Semi": [], "Final": [] };
+    const groupTree = {};
 
-    const Tree = {};
     localGames.forEach(game => {
-      const r = game.rodada || 1;
-      const g = getGameGroup(game.timeA, game.timeB);
-      if (!Tree[r]) Tree[r] = {};
-      if (!Tree[r][g]) Tree[r][g] = [];
-      Tree[r][g].push(game);
-    });
-
-    const sortedRounds = Object.keys(Tree).sort((a,b) => Number(a) - Number(b));
-
-    sortedRounds.forEach(round => {
-      const roundDiv = document.createElement("div");
-      roundDiv.innerHTML = `<div class="round-title">Rodada ${round}</div>`;
-      
-      const sortedGroups = Object.keys(Tree[round]).sort();
-      sortedGroups.forEach(group => {
-        const groupDiv = document.createElement("div");
-        groupDiv.innerHTML = `<div class="group-title">${group}</div>`;
-        
-        Tree[round][group].forEach(game => {
-          const item = document.createElement("div");
-          item.style.padding = "12px"; 
-          item.style.marginBottom = "10px"; 
-          item.style.background = "rgba(255,255,255,0.03)";
-          item.style.border = "1px solid rgba(255,255,255,0.1)"; 
-          item.style.borderRadius = "8px"; 
-          item.style.display = "flex"; 
-          item.style.justifyContent = "space-between"; 
-          item.style.alignItems = "center"; 
-          item.style.flexWrap = "wrap";
-          
-          item.innerHTML = `
-            <div style="flex: 1; min-width: 200px;">
-              <strong>${game.timeA}</strong> x <strong>${game.timeB}</strong> ${game.finalizado ? ' <span style="color:var(--gold); font-size:0.8rem">(Finalizado)</span>' : ''} <br><br>
-              <input type="number" id="a-${game.id}" placeholder="Gols" value="${game.golsA !== null ? game.golsA : ''}" style="width:50px; padding: 4px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; border-radius: 4px;" ${game.finalizado ? 'disabled' : ''}>
-              x
-              <input type="number" id="b-${game.id}" placeholder="Gols" value="${game.golsB !== null ? game.golsB : ''}" style="width:50px; padding: 4px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; border-radius: 4px;" ${game.finalizado ? 'disabled' : ''}>
-              ${!game.finalizado ? `<button onclick="finalizarJogoManual('${game.id}')" style="margin-left:10px; padding:4px 8px; background:gold; border:none; cursor:pointer; font-weight:bold; border-radius:4px; color: black; font-size: 0.8rem;">Finalizar</button>` : ''}
-            </div>
-            <div>
-              <button onclick="removerJogo('${game.id}')" style="padding:6px 10px; background:rgba(192,57,43,0.8); border:none; cursor:pointer; color: white; border-radius:4px; font-size: 0.8rem; font-weight: bold; margin-top:5px;">🗑 Excluir</button>
+      // RENDEREIZAÇÃO EXCLUSIVA NO PAINEL ADMIN PARA GERENCIAMENTO DE PLACAR REAIS
+      if(adminList && isAdmin) {
+        const d = document.createElement("div");
+        d.className = "jogo-card";
+        if (!game.finalizado) {
+          d.innerHTML = `
+            <span><strong>${game.timeA} x ${game.timeB}</strong> (${getRoundText(game.rodada)})</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="number" id="admin-a-${game.id}" class="input-score" style="width:45px; padding:4px;" placeholder="0"> 
+              x 
+              <input type="number" id="admin-b-${game.id}" class="input-score" style="width:45px; padding:4px;" placeholder="0">
+              <button onclick="finalizarJogoManual('${game.id}')" style="background:var(--fifa-neon); color:var(--fifa-bg); border:none; padding:5px 10px; border-radius:6px; font-weight:bold; cursor:pointer;">💾 Salvar</button>
             </div>
           `;
-          groupDiv.appendChild(item);
+        } else {
+          d.innerHTML = `
+            <span><strong>${game.timeA} ${game.golsA} x ${game.golsB} ${game.timeB}</strong> (${getRoundText(game.rodada)})</span>
+            <span class="bet-badge-status status-winner" style="min-width:auto; padding:2px 8px;">Encerrado</span>
+          `;
+        }
+        adminList.appendChild(d);
+      }
+
+      if(KO_ROUNDS.includes(game.rodada)) {
+        koGamesByRound[game.rodada].push(game);
+      } else {
+        const r = game.rodada || "1";
+        const g = getGameGroup(game.timeA, game.timeB);
+        if (!groupTree[r]) groupTree[r] = {};
+        if (!groupTree[r][g]) groupTree[r][g] = [];
+        groupTree[r][g].push(game);
+      }
+    });
+
+    // RENDERIZAÇÃO PÚBLICA DA FASE DE GRUPOS (APENAS LEITURA)
+    Object.keys(groupTree).sort().forEach(round => {
+      const rDiv = document.createElement("div");
+      rDiv.innerHTML = `<div class="round-title">${getRoundText(round)}</div>`;
+      Object.keys(groupTree[round]).sort().forEach(group => {
+        const gDiv = document.createElement("div");
+        gDiv.innerHTML = `<div class="group-title">${group}</div>`;
+        groupTree[round][group].forEach(game => {
+          gDiv.innerHTML += `
+            <div class="jogo-card">
+              <span>${getFlagHTML(game.timeA)} ${game.timeA} <b>${game.golsA !== null ? game.golsA : '-'}</b> x <b>${game.golsB !== null ? game.golsB : '-'}</b> ${getFlagHTML(game.timeB)} ${game.timeB}</span>
+            </div>`;
         });
-        roundDiv.appendChild(groupDiv);
+        rDiv.appendChild(gDiv);
       });
-      container.appendChild(roundDiv);
+      if(groupContainer) groupContainer.appendChild(rDiv);
+    });
+
+    // RENDERIZAÇÃO PÚBLICA DO MATA-MATA (APENAS LEITURA)
+    KO_ROUNDS.forEach(round => {
+      if(koGamesByRound[round].length > 0) {
+        const col = document.createElement("div");
+        col.className = "bracket-column";
+        col.innerHTML = `<div class="bracket-column-title">${getRoundText(round)}</div>`;
+        
+        koGamesByRound[round].forEach(game => {
+          const matchCard = document.createElement("div");
+          matchCard.className = "bracket-match-card";
+          matchCard.innerHTML = `
+            <div class="bracket-team-row">
+              <span>${getFlagHTML(game.timeA)} ${game.timeA}</span>
+              <span class="bracket-score-box">${game.golsA !== null ? game.golsA : '-'}</span>
+            </div>
+            <div class="bracket-team-row">
+              <span>${getFlagHTML(game.timeB)} ${game.timeB}</span>
+              <span class="bracket-score-box">${game.golsB !== null ? game.golsB : '-'}</span>
+            </div>
+          `;
+          col.appendChild(matchCard);
+        });
+        if(bracketContainer) bracketContainer.appendChild(col);
+      }
     });
   }
 
-  // ATUALIZADO: Renderiza a Matriz de Palpites ORDENADA HIERARQUICAMENTE por rodada e grupo
-  function renderBetMatrix() {
+  function atualizarCentralJogosVisual() {
+    const cLive = document.getElementById("jogosAoVivo");
+    const cNext = document.getElementById("jogosHoje");
+    const cDone = document.getElementById("jogosFinalizados");
+    if(!cLive || !cNext || !cDone) return;
+    
+    cLive.innerHTML = ""; cNext.innerHTML = ""; cDone.innerHTML = "";
+
+    localGames.forEach(j => {
+      const html = `<div class="jogo-card">${getFlagHTML(j.timeA)} ${j.timeA} [${j.golsA !== null ? j.golsA : '-'}] x [${j.golsB !== null ? j.golsB : '-'}] ${getFlagHTML(j.timeB)} ${j.timeB}</div>`;
+      if(j.finalizado) cDone.innerHTML += html;
+      else if(j.golsA !== null) cLive.innerHTML += html;
+      else cNext.innerHTML += html;
+    });
+  }
+
+  async function renderBetMatrix() {
     const tbody = document.getElementById("bet-matrix-body");
-    if (!tbody) return;
-    tbody.innerHTML = "";
+    if (!tbody) return; tbody.innerHTML = "";
+    const pid = document.getElementById("bet-player").value;
+    let saved = {};
 
-    const jogosAbertos = localGames.filter(j => !j.finalizado);
-
-    if (jogosAbertos.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; color:rgba(255,255,255,0.4)">Nenhum jogo em aberto cadastrado.</td></tr>`;
-      return;
+    if(pid) {
+      const snap = await getDocs(query(collection(db, "palpites"), where("participanteId", "==", pid)));
+      snap.forEach(d => saved[d.data().jogoId] = d.data());
     }
 
-    // Ordenação idêntica da estrutura da árvore
-    const jogosOrdenados = [...jogosAbertos].sort((a, b) => {
-      if (a.rodada !== b.rodada) return a.rodada - b.rodada;
-      const grupoA = getGameGroup(a.timeA, a.timeB);
-      const grupoB = getGameGroup(b.timeA, b.timeB);
-      return grupoA.localeCompare(grupoB);
-    });
-
-    let ultimaRodadaGrupo = "";
-
-    jogosOrdenados.forEach(jogo => {
-      const grupoAtual = getGameGroup(jogo.timeA, juego.timeB);
-      const labelSecao = `Rodada ${jogo.rodada} · ${grupoAtual}`;
-
-      // Cria linhas divisórias sutis dentro da tabela de preenchimento em lote
-      if(labelSecao !== ultimaRodadaGrupo) {
-        ultimaRodadaGrupo = labelSecao;
-        const rDiv = document.createElement("tr");
-        rDiv.innerHTML = `<td colspan="2" class="matrix-section-row">${labelSecao}</td>`;
-        tbody.appendChild(rDiv);
-      }
-
+    localGames.filter(j => !j.finalizado).forEach(jogo => {
+      const pal = saved[jogo.id];
+      const disabled = pal && !isAdmin ? 'disabled' : '';
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td style="display:flex; align-items:center; gap:8px; border:none; padding:12px 8px;">
-          <div style="display:flex; align-items:center; gap:4px; font-weight:600;">
-            ${getFlagHTML(jogo.timeA)} ${jogo.timeA}
-          </div>
-          <span style="color:var(--gold); font-size:0.8rem;">x</span>
-          <div style="display:flex; align-items:center; gap:4px; font-weight:600;">
-            ${getFlagHTML(jogo.timeB)} ${jogo.timeB}
-          </div>
-        </td>
-        <td style="text-align: center; white-space: nowrap; vertical-align:middle;">
-          <input type="number" min="0" class="input-score" id="matrix-a-${jogo.id}" placeholder="0">
-          <span style="margin:0 2px;">-</span>
-          <input type="number" min="0" class="input-score" id="matrix-b-${jogo.id}" placeholder="0">
-        </td>
-      `;
+        <td>${getFlagHTML(jogo.timeA)} ${jogo.timeA} x ${getFlagHTML(jogo.timeB)} ${jogo.timeB} ${pal ? '🔒':''}</td>
+        <td class="center">
+          <input type="number" class="input-score" id="matrix-a-${jogo.id}" value="${pal?pal.palpiteA:''}" ${disabled}> -
+          <input type="number" class="input-score" id="matrix-b-${jogo.id}" value="${pal?pal.palpiteB:''}" ${disabled}>
+        </td>`;
       tbody.appendChild(tr);
     });
   }
 
   async function saveAllBets() {
-    const participanteId = document.getElementById("bet-player").value;
-    if (!participanteId) { alert("Crie ou selecione um participante primeiro!"); return; }
+    const pid = document.getElementById("bet-player").value;
+    const pass = document.getElementById("bet-player-password").value.trim();
+    if(!pid || !pass) { alert("Preencha todos os campos."); return; }
 
-    const jogosAbertos = localGames.filter(j => !j.finalizado);
-    let salvos = 0;
+    const pSnap = await getDoc(doc(db, "participantes", pid));
+    if(pSnap.data().senha !== pass) { alert("Incorreto!"); return; }
 
-    try {
-      for (const jogo of jogosAbertos) {
-        const valA = document.getElementById(`matrix-a-${jogo.id}`).value;
-        const valB = document.getElementById(`matrix-b-${jogo.id}`).value;
-
-        if (valA !== "" && valB !== "") {
-          await addDoc(collection(db, "palpites"), {
-            participanteId,
-            jogoId: jogo.id,
-            palpiteA: Number(valA),
-            palpiteB: Number(valB)
-          });
-          salvos++;
-          
-          document.getElementById(`matrix-a-${jogo.id}`).value = "";
-          document.getElementById(`matrix-b-${jogo.id}`).value = "";
+    localGames.filter(j => !j.finalizado).forEach(async (jogo) => {
+      const valA = document.getElementById(`matrix-a-${jogo.id}`).value;
+      const valB = document.getElementById(`matrix-b-${jogo.id}`).value;
+      if(valA !== "" && valB !== "") {
+        const q = query(collection(db, "palpites"), where("participanteId", "==", pid), where("jogoId", "==", jogo.id));
+        const ext = await getDocs(q);
+        if(ext.empty) {
+          await addDoc(collection(db, "palpites"), { participanteId: pid, jogoId: jogo.id, palpiteA: Number(valA), palpiteB: Number(valB) });
+        } else if(isAdmin) {
+          await updateDoc(doc(db, "palpites", ext.docs[0].id), { palpiteA: Number(valA), palpiteB: Number(valB) });
         }
       }
-
-      if (salvos === 0) {
-        alert("Nenhum palpite foi preenchido. Digite os placares antes de salvar.");
-      } else {
-        alert(`Sucesso! ${salvos} palpite(s) gravado(s) de uma vez só.`);
-      }
-    } catch(e) {
-      alert("Erro ao salvar os palpites no Firebase.");
-    }
+    });
+    alert("Palpites Concluídos!");
+    document.getElementById("bet-player-password").value = "";
+    renderBetMatrix();
   }
 
-  // ATUALIZADO: Carrega os palpites públicos INCLUINDO AS BANDEIRAS DOS DOIS PAÍSES
+  function buildBetCardHTML(jogo, pal) {
+    let badge = `<span class="bet-badge-status status-waiting">Aberto</span>`;
+    let palpiteTexto = `<span style="color: rgba(255,255,255,0.25)">Não enviado</span>`;
+
+    if(pal) {
+      palpiteTexto = `<b>${pal.palpiteA} x ${pal.palpiteB}</b>`;
+      if(jogo.finalizado) {
+        if(pal.palpiteA === jogo.golsA && pal.palpiteB === jogo.golsB) {
+          badge = `<span class="bet-badge-status status-exact">🎯 Cravou</span>`;
+        } 
+        else if((pal.palpiteA > pal.palpiteB && jogo.golsA > jogo.golsB) || 
+                (pal.palpiteA < pal.palpiteB && jogo.golsA < jogo.golsB) || 
+                (pal.palpiteA === pal.palpiteB && jogo.golsA === jogo.golsB)) {
+          badge = `<span class="bet-badge-status status-winner">✅ Vencedor</span>`;
+        } else {
+          badge = `<span class="bet-badge-status status-miss">❌ Errou</span>`;
+        }
+      }
+    } else if(jogo.finalizado) {
+      badge = `<span class="bet-badge-status status-miss">❌ Ausente</span>`;
+    }
+
+    return `
+      <div class="bet-card">
+        <div class="bet-card-teams">
+          <div>${getFlagHTML(jogo.timeA)} ${jogo.timeA} x ${getFlagHTML(jogo.timeB)} ${jogo.timeB}</div>
+          <div class="bet-card-info">Placar FIFA: ${jogo.finalizado ? jogo.golsA+'x'+jogo.golsB : 'Aguardando'}</div>
+        </div>
+        <div class="bet-card-results">
+          <div>Aposta: ${palpiteTexto}</div>
+          ${badge}
+        </div>
+      </div>`;
+  }
+
   async function loadPublicPlayerBets() {
     const pid = document.getElementById("public-player-select").value;
     const container = document.getElementById("public-bets-container");
-    if(!container) return;
-
-    if(!pid) {
-      container.innerHTML = `<p style="text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem;">Escolha um participante acima para analisar o desempenho de cada palpite.</p>`;
-      return;
-    }
-
-    container.innerHTML = `<p style="text-align: center; color: var(--gold)">Buscando dados salvos...</p>`;
-
-    try {
-      const q = query(collection(db, "palpites"), where("participanteId", "==", pid));
-      const snap = await getDocs(q);
-      const userBets = {};
-      
-      snap.forEach(d => {
-        const data = d.data();
-        userBets[data.jogoId] = data;
-      });
-
-      if (localGames.length === 0) {
-        container.innerHTML = `<p style="text-align: center; color: rgba(255,255,255,0.4)">Nenhum jogo em andamento encontrado.</p>`;
-        return;
-      }
-
-      container.innerHTML = "";
-
-      const sortedGames = [...localGames].sort((a,b) => {
-        if (a.rodada !== b.rodada) return a.rodada - b.rodada;
-        return getGameGroup(a.timeA, a.timeB).localeCompare(getGameGroup(b.timeA, b.timeB));
-      });
-
-      sortedGames.forEach(jogo => {
-        const palpite = userBets[jogo.id];
-        const card = document.createElement("div");
-        card.className = "bet-card";
-
-        let textPalpite = "Não cadastrado";
-        let badgeHTML = `<span class="bet-badge-status status-waiting">Sem palpite</span>`;
-
-        if (palpite) {
-          textPalpite = `${palpite.palpiteA} x ${palpite.palpiteB}`;
-          
-          if (!jogo.finalizado) {
-            badgeHTML = `<span class="bet-badge-status status-waiting">Aguardando</span>`;
-          } else {
-            if (palpite.palpiteA === jogo.golsA && palpite.palpiteB === jogo.golsB) {
-              badgeHTML = `<span class="bet-badge-status status-exact">🎯 Placar Exato!</span>`;
-            } else if (
-              (palpite.palpiteA > palpite.palpiteB && jogo.golsA > jogo.golsB) || 
-              (palpite.palpiteA < palpite.palpiteB && jogo.golsA < jogo.golsB) || 
-              (palpite.palpiteA === palpite.palpiteB && jogo.golsA === jogo.golsB)
-            ) {
-              badgeHTML = `<span class="bet-badge-status status-winner">✅ Vencedor</span>`;
-            } else {
-              badgeHTML = `<span class="bet-badge-status status-miss">❌ Errou</span>`;
-            }
-          }
-        }
-
-        const placarReal = jogo.finalizado ? `${jogo.golsA} x ${jogo.golsB}` : "Em aberto";
-
-        // Renderização avançada com tags das bandeiras montadas dinamicamente
-        card.innerHTML = `
-          <div class="bet-card-teams">
-            <div class="team-row-display">
-              ${getFlagHTML(jogo.timeA)} <strong>${jogo.timeA}</strong>
-            </div>
-            <div class="team-row-display">
-              ${getFlagHTML(jogo.timeB)} <strong>${jogo.timeB}</strong>
-            </div>
-            <div class="bet-card-info">Rodada ${jogo.rodada} · ${getGameGroup(jogo.timeA, jogo.timeB)} · Placar Real: <span style="color:var(--gold); font-weight:bold;">${placarReal}</span></div>
-          </div>
-          <div class="bet-card-results">
-            <div style="text-align:right">
-              <span style="font-size:0.75rem; display:block; color:rgba(255,255,255,0.4)">Seu palpite:</span>
-              <strong style="color:white; font-size:1.1rem">${textPalpite}</strong>
-            </div>
-            ${badgeHTML}
-          </div>
-        `;
-        container.appendChild(card);
-      });
-
-    } catch(e) {
-      container.innerHTML = `<p style="text-align: center; color: #ff8f80">Erro ao carregar os palpites.</p>`;
-    }
-  }
-
-  async function syncResultsFromAPI() {
-    const idCampeonato = "58210"; 
-    const idTemporada = "16"; 
+    const statsContainer = document.getElementById("player-stats-summary");
     
-    const apiTargetUrl = `https://api.sofascore.com/api/v1/unique-tournament/${idCampeonato}/season/${idTemporada}/events`;
-    const urlProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(apiTargetUrl)}&_nocache=${Date.now()}`;
+    if(!pid) { container.innerHTML = ""; if(statsContainer) statsContainer.innerHTML = ""; return; }
 
-    try {
-      const response = await fetch(urlProxy);
-      if (!response.ok) throw new Error("Erro de comunicação com o servidor proxy.");
-      
-      const wrapper = await response.json();
-      const resData = JSON.parse(wrapper.contents);
-      
-      if (!resData.events || resData.events.length === 0) {
-        alert("O SofaScore respondeu, mas nenhum jogo foi encontrado.");
-        return;
-      }
-
-      let atualizados = 0;
-      const listaJogosParaValidar = localGames || [];
-
-      for (const event of resData.events) {
-        const status = event.status ? event.status.type : "";
-        
-        if (status === "ended" || status === "finished") {
-          if (!event.homeTeam || !event.awayTeam || !event.homeScore || !event.awayScore) continue;
-
-          const apiTimeA = event.homeTeam.name.toLowerCase();
-          const apiTimeB = event.awayTeam.name.toLowerCase();
-          
-          const golsA = event.homeScore.display !== undefined ? event.homeScore.display : event.homeScore.current;
-          const golsB = event.awayScore.display !== undefined ? event.awayScore.display : event.awayScore.current;
-
-          for (const jogoLocal of listaJogosParaValidar) {
-            if (jogoLocal.finalizado) continue;
-
-            const localTimeA = jogoLocal.timeA.toLowerCase();
-            const localTimeB = jogoLocal.timeB.toLowerCase();
-
-            if ((localTimeA === apiTimeA || apiTimeA.includes(localTimeA) || localTimeA.includes(apiTimeA)) && 
-                (localTimeB === apiTimeB || apiTimeB.includes(localTimeB) || localTimeB.includes(apiTimeB))) {
-              
-              await updateDoc(doc(db, "jogos", jogoLocal.id), {
-                golsA: Number(golsA),
-                golsB: Number(golsB),
-                finalizado: true
-              });
-              
-              await calcularPontuacao(jogoLocal.id, Number(golsA), Number(golsB));
-              atualizados++;
-            }
-          }
-        }
-      }
-
-      if (atualizados === 0) {
-        alert(`SofaScore consultado! Porém, nenhuma partida finalizada lá corresponde aos jogos abertos.`);
-      } else {
-        alert(`Sucesso total! ${atualizados} jogo(s) sincronizado(s) e pontuado(s)!`);
-      }
-
-    } catch (error) {
-      alert("Erro na sincronização.");
+    const pObj = players.find(p => p.firebaseId === pid);
+    if(pObj && statsContainer) {
+      statsContainer.innerHTML = `
+        <div class="legend-pills" style="margin-bottom: 20px;">
+          <div class="pill"><span class="dot dot-gold"></span> Cravados: <b>${pObj.exact}</b></div>
+          <div class="pill"><span class="dot dot-green"></span> Resultados: <b>${pObj.winner}</b></div>
+          <div class="pill"><span class="dot dot-red"></span> Erros: <b>${pObj.miss}</b></div>
+        </div>`;
     }
-  }
-  
-  async function finalizarJogoManual(jogoId) {
-    const golsA = Number(document.getElementById(`a-${jogoId}`).value);
-    const golsB = Number(document.getElementById(`b-${jogoId}`).value);
-    if (document.getElementById(`a-${jogoId}`).value === "" || document.getElementById(`b-${jogoId}`).value === "") { alert("Preencha os gols!"); return; }
-    try {
-      await updateDoc(doc(db, "jogos", jogoId), { golsA, golsB, finalizado: true });
-      await calcularPontuacao(jogoId, golsA, golsB);
-      alert("Jogo finalizado e pontuado!");
-    } catch(e) { alert("Erro ao finalizar."); }
+
+    container.innerHTML = "<p style='text-align:center;'>Consultando banco de dados...</p>";
+    const snap = await getDocs(query(collection(db, "palpites"), where("participanteId", "==", pid)));
+    let bMap = {}; snap.forEach(d => bMap[d.data().jogoId] = d.data());
+
+    const KO_ROUNDS = ["16-Avos", "Oitavas", "Quartas", "Semi", "Final"];
+    const groupTree = {};
+    const koTree = {};
+    KO_ROUNDS.forEach(r => koTree[r] = []);
+
+    localGames.forEach(jogo => {
+      if(KO_ROUNDS.includes(jogo.rodada)) {
+        koTree[jogo.rodada].push(jogo);
+      } else {
+        const r = jogo.rodada || "1";
+        const g = getGameGroup(jogo.timeA, jogo.timeB);
+        if (!groupTree[r]) groupTree[r] = {};
+        if (!groupTree[r][g]) groupTree[r][g] = [];
+        groupTree[r][g].push(jogo);
+      }
+    });
+
+    let builtHTML = "";
+
+    Object.keys(groupTree).sort().forEach(round => {
+      builtHTML += `<div class="round-title" style="font-size: 1.4rem; margin-top: 1.5rem; border-color: var(--border);">${getRoundText(round)}</div>`;
+      Object.keys(groupTree[round]).sort().forEach(group => {
+        builtHTML += `<div class="group-title" style="font-size: 0.95rem; margin-top: 0.8rem; margin-left: 0;">${group}</div>`;
+        builtHTML += `<div class="public-grid">`;
+        groupTree[round][group].forEach(jogo => {
+          builtHTML += buildBetCardHTML(jogo, bMap[jogo.id]);
+        });
+        builtHTML += `</div>`;
+      });
+    });
+
+    KO_ROUNDS.forEach(round => {
+      if(koTree[round].length > 0) {
+        builtHTML += `<div class="round-title" style="font-size: 1.4rem; margin-top: 1.5rem; border-color: var(--border);">${getRoundText(round)}</div>`;
+        builtHTML += `<div class="public-grid">`;
+        koTree[round].forEach(jogo => {
+          builtHTML += buildBetCardHTML(jogo, bMap[jogo.id]);
+        });
+        builtHTML += `</div>`;
+      }
+    });
+
+    container.innerHTML = builtHTML;
   }
 
-  async function calcularPontuacao(jogoId, golsA, golsB) {
-    const q = query(collection(db, "palpites"), where("jogoId", "==", jogoId));
-    const snapshot = await getDocs(q);
-    for (const docSnap of snapshot.docs) {
-      const palpite = docSnap.data(); let pontos = 0;
-      if (palpite.palpiteA === golsA && palpite.palpiteB === golsB) { pontos = 3; }
-      else if ((palpite.palpiteA > palpite.palpiteB && golsA > golsB) || (palpite.palpiteA < palpite.palpiteB && golsA < golsB) || (palpite.palpiteA === palpite.palpiteB && golsA === golsB)) { pontos = 1; }
-      const participanteRef = doc(db, "participantes", palpite.participanteId);
-      const participanteSnap = await getDoc(participanteRef);
-      if (participanteSnap.exists()) {
-        const p = participanteSnap.data();
-        await updateDoc(participanteRef, {
-          exatos: (p.exatos || 0) + (pontos === 3 ? 1 : 0),
-          vencedores: (p.vencedores || 0) + (pontos === 1 ? 1 : 0),
-          erros: (p.erros || 0) + (pontos === 0 ? 1 : 0)
+  async function finalizarJogoManual(jogoId) {
+    if (!isAdmin) { alert("Acesso negado. Você precisa se autenticar como admin."); return; }
+    
+    const valA = document.getElementById(`admin-a-${jogoId}`).value;
+    const valB = document.getElementById(`admin-b-${jogoId}`).value;
+    
+    if(valA === "" || valB === "") { alert("Por favor, preencha os gols de ambos os lados."); return; }
+    
+    const golsA = Number(valA);
+    const golsB = Number(valB);
+    
+    await updateDoc(doc(db, "jogos", jogoId), { golsA, golsB, finalizado: true });
+    
+    const snap = await getDocs(query(collection(db, "palpites"), where("jogoId", "==", jogoId)));
+    for (const d of snap.docs) {
+      const p = d.data(); let pts = 0;
+      if(p.palpiteA === golsA && p.palpiteB === golsB) pts = 3;
+      else if((p.palpiteA > p.palpiteB && golsA > golsB) || (p.palpiteA < p.palpiteB && golsA < golsB) || (p.palpiteA === p.palpiteB && golsA === golsB)) pts = 1;
+      
+      const pRef = doc(db, "participantes", p.participanteId);
+      const pSnap = await getDoc(pRef);
+      if(pSnap.exists()) {
+        const cur = pSnap.data();
+        await updateDoc(pRef, {
+          exatos: (cur.exatos || 0) + (pts===3?1:0),
+          vencedores: (cur.vencedores || 0) + (pts===1?1:0),
+          erros: (cur.erros || 0) + (pts===0?1:0)
         });
       }
     }
+    alert("Match Finalizado com Atualização de Pontos!");
   }
 
   function loadPlayersSelect() {
-    const select = document.getElementById("bet-player"); if (!select) return; select.innerHTML = "";
-    players.forEach((p) => { const option = document.createElement("option"); option.value = p.firebaseId; option.textContent = p.name; select.appendChild(option); });
+    const s = document.getElementById("bet-player"); if(!s) return; s.innerHTML = "";
+    players.forEach(p => s.innerHTML += `<option value="${p.firebaseId}">${p.name}</option>`);
   }
 
   function loadPublicPlayersSelect() {
-    const select = document.getElementById("public-player-select"); if (!select) return;
-    const currentVal = select.value;
-    select.innerHTML = '<option value="">Selecione um participante...</option>';
-    players.forEach((p) => { 
-      const option = document.createElement("option"); 
-      option.value = p.firebaseId; 
-      option.textContent = p.name; 
-      select.appendChild(option); 
-    });
-    select.value = currentVal;
+    const s = document.getElementById("public-player-select"); if(!s) return;
+    const val = s.value; s.innerHTML = '<option value="">Selecione...</option>';
+    players.forEach(p => s.innerHTML += `<option value="${p.firebaseId}">${p.name}</option>`);
+    s.value = val;
   }
 
-  document.getElementById("edit-modal").addEventListener("click", function(e) { if (e.target === this) closeModal(); });
-
-  window.toggleLogin = toggleLogin; window.doLogin = doLogin; window.logout = logout; window.addPlayer = addPlayer; window.addGame = addGame; window.removerJogo = removerJogo; window.saveAllBets = saveAllBets; window.renderBetMatrix = renderBetMatrix; window.finalizarJogoManual = finalizarJogoManual; window.openEdit = openEdit; window.closeModal = closeModal; window.saveEdit = saveEdit; window.deletePlayer = deletePlayer; window.syncResultsFromAPI = syncResultsFromAPI; window.loadPublicPlayerBets = loadPublicPlayerBets;
+  window.switchTab = switchTab; window.toggleLogin = toggleLogin; window.doLogin = doLogin;
+  window.addPlayer = addPlayer; window.addGame = addGame; window.saveAllBets = saveAllBets;
+  window.loadPublicPlayerBets = loadPublicPlayerBets; window.finalizarJogoManual = finalizarJogoManual;
+  window.toggleCentralJogos = toggleCentralJogos; window.openEdit = openEdit; window.closeModal = closeModal;
+  window.saveEdit = saveEdit; window.deletePlayer = deletePlayer; window.renderBetMatrix = renderBetMatrix;
 
   startRealtimeRanking(); startRealtimeGames();
 </script>
