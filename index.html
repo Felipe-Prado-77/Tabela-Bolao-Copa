@@ -1121,37 +1121,40 @@
   }
 
   async function finalizarJogoManual(jogoId) {
-    if (!isAdmin) { alert("Acesso negado. Você precisa se autenticar como admin."); return; }
+  if (!isAdmin) { alert("Acesso negado. Você precisa se autenticar como admin."); return; }
+  
+  const valA = document.getElementById(`admin-a-${jogoId}`).value;
+  const valB = document.getElementById(`admin-b-${jogoId}`).value;
+  
+  if(valA === "" || valB === "") { alert("Por favor, preencha os gols de ambos os lados."); return; }
+  
+  const golsA = Number(valA);
+  const golsB = Number(valB);
+  
+  await updateDoc(doc(db, "jogos", jogoId), { golsA, golsB, finalizado: true });
+  
+  // CORREÇÃO AQUI: Aponta para a coleção correta e usa o filtro 'where'
+  const snap = await getDocs(query(collection(db, "palpites"), where("jogoId", "==", jogoId)));
+  
+  for (const d of snap.docs) {
+    const p = d.data(); let pts = 0;
+    if(p.palpiteA === golsA && p.palpiteB === golsB) pts = 3;
+    else if((p.palpiteA > p.palpiteB && golsA > golsB) || (p.palpiteA < p.palpiteB && golsA < golsB) || (p.palpiteA === p.palpiteB && golsA === golsB)) pts = 1;
     
-    const valA = document.getElementById(`admin-a-${jogoId}`).value;
-    const valB = document.getElementById(`admin-b-${jogoId}`).value;
-    
-    if(valA === "" || valB === "") { alert("Por favor, preencha os gols de ambos os lados."); return; }
-    
-    const golsA = Number(valA);
-    const golsB = Number(valB);
-    
-    await updateDoc(doc(db, "jogos", jogoId), { golsA, golsB, finalizado: true });
-    
-    const snap = await getDocs(query(collection(db, "jogoId", "==", jogoId)));
-    for (const d of snap.docs) {
-      const p = d.data(); let pts = 0;
-      if(p.palpiteA === golsA && p.palpiteB === golsB) pts = 3;
-      else if((p.palpiteA > p.palpiteB && golsA > golsB) || (p.palpiteA < p.palpiteB && golsA < golsB) || (p.palpiteA === p.palpiteB && golsA === golsB)) pts = 1;
-      
-      const pRef = doc(db, "participantes", p.participanteId);
-      const pSnap = await getDoc(pRef);
-      if(pSnap.exists()) {
-        const cur = pSnap.data();
-        await updateDoc(pRef, {
-          exatos: (cur.exatos || 0) + (pts===3?1:0),
-          vencedores: (cur.vencedores || 0) + (pts===1?1:0),
-          erros: (cur.erros || 0) + (pts===0?1:0)
-        });
-      }
+    const pRef = doc(db, "participantes", p.participanteId);
+    const pSnap = await getDoc(pRef);
+    if(pSnap.exists()) {
+      const cur = pSnap.data();
+      await updateDoc(pRef, {
+        exatos: (cur.exatos || 0) + (pts===3?1:0),
+        vencedores: (cur.vencedores || 0) + (pts===1?1:0),
+        erros: (cur.erros || 0) + (pts===0?1:0)
+      });
     }
-    alert("Match Finalizado com Atualização de Pontos!");
   }
+  alert("Match Finalizado com Atualização de Pontos!");
+}
+
 
   function loadPlayersSelect() {
     const s = document.getElementById("bet-player"); if(!s) return; s.innerHTML = "";
