@@ -1167,6 +1167,118 @@
     players.forEach(p => s.innerHTML += `<option value="${p.firebaseId}">${p.name}</option>`);
     s.value = val;
   }
+  // =========================================================================
+// ADICIONE ESTE BLOCO EXCLUSIVO NO FINAL DO SEU <script> (ANTES DE </scr)
+// =========================================================================
+
+// Filtro da API restrito estritamente à Copa do Mundo (WC) via proxy limpo
+const API_KEY_COPA = 'fd_7afa8549537f6d79c0174039fef6dd8e5d79fd0ca6295586';
+const API_URL_COPA = 'https://corsproxy.io/?https://api.football-data.org/v4/competitions/WC/matches';
+
+async function carregarMonitorCopaMundoAPI() {
+  const containerAoVivo = document.getElementById('jogosAoVivo');
+  const containerHoje = document.getElementById('jogosHoje');
+  const containerFinalizados = document.getElementById('jogosFinalizados');
+
+  // Proteção para garantir que os elementos do seu HTML existem antes de rodar
+  if (!containerAoVivo || !containerHoje || !containerFinalizados) return;
+
+  try {
+    const response = await fetch(API_URL_COPA, {
+      method: 'GET',
+      headers: { 
+        'X-Auth-Token': API_KEY_COPA,
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const matches = data.matches || [];
+
+    let htmlAoVivo = '';
+    let htmlHoje = '';
+    let htmlFinalizados = '';
+
+    matches.forEach(match => {
+      // Coleta os dados das seleções e placares fornecidos pela API da FIFA
+      const timeHome = match.homeTeam.name;
+      const timeAway = match.awayTeam.name;
+      const escudoHome = match.homeTeam.crest || '';
+      const escudoAway = match.awayTeam.crest || '';
+      
+      const golsHome = match.score.fullTime.home !== null ? match.score.fullTime.home : '-';
+      const golsAway = match.score.fullTime.away !== null ? match.score.fullTime.away : '-';
+
+      // Formatação de data e hora para o padrão brasileiro
+      const dataJogo = new Date(match.utcDate);
+      const dataFormatada = dataJogo.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+      const horaFormatada = dataJogo.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+      let statusTexto = '';
+      if (['IN_PLAY', 'PAUSED', 'EXTRA_TIME', 'PENALTY_SHOOTOUT'].includes(match.status)) {
+        statusTexto = `<span style="color: var(--fifa-neon); font-weight: bold;">• AO VIVO</span>`;
+      } else if (['FINISHED', 'AWARDED'].includes(match.status)) {
+        statusTexto = `<span style="color: rgba(255,255,255,0.4); font-size: 0.75rem;">ENCERRADO</span>`;
+      } else {
+        statusTexto = `<span style="color: var(--fifa-cyan); font-size: 0.75rem;">📅 ${dataFormatada} às ${horaFormatada}</span>`;
+      }
+
+      // Constrói o HTML aproveitando exatamente a classe .jogo-card do seu CSS original
+      const cardHTML = `
+        <div class="jogo-card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+            <div style="display: flex; align-items: center; gap: 8px; font-family: 'Oswald', sans-serif;">
+              <img src="${escudoHome}" class="flag-img" style="width: 24px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
+              <span>${timeHome}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-family: 'Oswald', sans-serif;">
+              <img src="${escudoAway}" class="flag-img" style="width: 24px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
+              <span>${timeAway}</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 75px;">
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--fifa-neon); letter-spacing: 1px;">
+              ${golsHome} x ${golsAway}
+            </div>
+            <div>${statusTexto}</div>
+          </div>
+        </div>
+      `;
+
+      // Separa os jogos nos blocos corretos do seu Live Match Monitor
+      if (['IN_PLAY', 'PAUSED', 'EXTRA_TIME', 'PENALTY_SHOOTOUT'].includes(match.status)) {
+        htmlAoVivo += cardHTML;
+      } else if (['SCHEDULED', 'TIMED'].includes(match.status)) {
+        htmlHoje += cardHTML;
+      } else if (['FINISHED', 'AWARDED'].includes(match.status)) {
+        htmlFinalizados += cardHTML;
+      }
+    });
+
+    // Injeta as listas de jogos diretamente nos seus containers originais do painel monitor
+    containerAoVivo.innerHTML = htmlAoVivo || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:10px;">Nenhum jogo da Copa ao vivo agora</p>`;
+    containerHoje.innerHTML = htmlHoje || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:10px;">Sem próximos confrontos agendados</p>`;
+    containerFinalizados.innerHTML = htmlFinalizados || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:10px;">Nenhum jogo encerrado recentemente</p>`;
+
+  } catch (error) {
+    console.error('Erro no monitor da Copa:', error);
+    const msgErro = `<p style="color:var(--red); font-size:0.8rem; text-align:center; padding:5px;">⚠️ Não foi possível sincronizar com a API da FIFA.</p>`;
+    if (containerAoVivo) containerAoVivo.innerHTML = msgErro;
+  }
+}
+
+// Ativa a busca automática assim que o site carrega
+window.addEventListener('DOMContentLoaded', () => {
+  carregarMonitorCopaMundoAPI();
+  // Atualiza em tempo real a cada 60 segundos automaticamente
+  setInterval(carregarMonitorCopaMundoAPI, 60000);
+});
+// =========================================================================
+
 
   window.switchTab = switchTab; window.toggleLogin = toggleLogin; window.doLogin = doLogin;
   window.addPlayer = addPlayer; window.addGame = addGame; window.saveAllBets = saveAllBets;
