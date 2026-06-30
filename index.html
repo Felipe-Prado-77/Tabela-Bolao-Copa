@@ -267,6 +267,74 @@
 
     @media(min-width: 768px) { .nav-menus { justify-content: center; padding-bottom: 0; } }
     @media(max-width: 600px) { thead th.hide-sm, td.hide-sm { display: none; } .pts-cell { font-size: 1.6rem; } }
+    /* Container Principal (Efeito Glassmorphism + Brilho Neon) */
+.live-stream-container {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 
+                0 0 15px rgba(0, 255, 255, 0.15); /* Brilho ciano sutil */
+}
+
+/* Cabeçalho do Bloco */
+.live-stream-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.live-stream-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* Badge "Ao Vivo" Piscando */
+.live-badge {
+    background: #ff0055; /* Rosa/Vermelho Neon */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    animation: pulse-live 1.8s infinite ease-in-out;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+/* Mantém o player na proporção de cinema (16:9) e responsivo */
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%; 
+    position: relative;
+    height: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border: none;
+}
+
+/* Animação do Badge */
+@keyframes pulse-live {
+    0% { opacity: 0.6; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.6; transform: scale(0.98); }
+}
+
   </style>
 </head>
 
@@ -328,6 +396,8 @@
 
       <div class="central-content-wrapper" id="central-content">
         <div class="jogos-bloco" style="margin-top: 10px;">
+
+
           <h3>🔴 LIVE AGORA</h3>
           <div id="jogosAoVivo"></div>
         </div>
@@ -1167,118 +1237,7 @@
     players.forEach(p => s.innerHTML += `<option value="${p.firebaseId}">${p.name}</option>`);
     s.value = val;
   }
-  // =========================================================================
-// ADICIONE ESTE BLOCO EXCLUSIVO NO FINAL DO SEU <script> (ANTES DE </scr)
-// =========================================================================
-
-// Filtro da API restrito estritamente à Copa do Mundo (WC) via proxy limpo
-const API_KEY_COPA = 'fd_7afa8549537f6d79c0174039fef6dd8e5d79fd0ca6295586';
-const API_URL_COPA = 'https://corsproxy.io/?https://api.football-data.org/v4/competitions/WC/matches';
-
-async function carregarMonitorCopaMundoAPI() {
-  const containerAoVivo = document.getElementById('jogosAoVivo');
-  const containerHoje = document.getElementById('jogosHoje');
-  const containerFinalizados = document.getElementById('jogosFinalizados');
-
-  // Proteção para garantir que os elementos do seu HTML existem antes de rodar
-  if (!containerAoVivo || !containerHoje || !containerFinalizados) return;
-
-  try {
-    const response = await fetch(API_URL_COPA, {
-      method: 'GET',
-      headers: { 
-        'X-Auth-Token': API_KEY_COPA,
-        'Accept': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const matches = data.matches || [];
-
-    let htmlAoVivo = '';
-    let htmlHoje = '';
-    let htmlFinalizados = '';
-
-    matches.forEach(match => {
-      // Coleta os dados das seleções e placares fornecidos pela API da FIFA
-      const timeHome = match.homeTeam.name;
-      const timeAway = match.awayTeam.name;
-      const escudoHome = match.homeTeam.crest || '';
-      const escudoAway = match.awayTeam.crest || '';
-      
-      const golsHome = match.score.fullTime.home !== null ? match.score.fullTime.home : '-';
-      const golsAway = match.score.fullTime.away !== null ? match.score.fullTime.away : '-';
-
-      // Formatação de data e hora para o padrão brasileiro
-      const dataJogo = new Date(match.utcDate);
-      const dataFormatada = dataJogo.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-      const horaFormatada = dataJogo.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-
-      let statusTexto = '';
-      if (['IN_PLAY', 'PAUSED', 'EXTRA_TIME', 'PENALTY_SHOOTOUT'].includes(match.status)) {
-        statusTexto = `<span style="color: var(--fifa-neon); font-weight: bold;">• AO VIVO</span>`;
-      } else if (['FINISHED', 'AWARDED'].includes(match.status)) {
-        statusTexto = `<span style="color: rgba(255,255,255,0.4); font-size: 0.75rem;">ENCERRADO</span>`;
-      } else {
-        statusTexto = `<span style="color: var(--fifa-cyan); font-size: 0.75rem;">📅 ${dataFormatada} às ${horaFormatada}</span>`;
-      }
-
-      // Constrói o HTML aproveitando exatamente a classe .jogo-card do seu CSS original
-      const cardHTML = `
-        <div class="jogo-card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
-            <div style="display: flex; align-items: center; gap: 8px; font-family: 'Oswald', sans-serif;">
-              <img src="${escudoHome}" class="flag-img" style="width: 24px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
-              <span>${timeHome}</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px; font-family: 'Oswald', sans-serif;">
-              <img src="${escudoAway}" class="flag-img" style="width: 24px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
-              <span>${timeAway}</span>
-            </div>
-          </div>
-          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 75px;">
-            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--fifa-neon); letter-spacing: 1px;">
-              ${golsHome} x ${golsAway}
-            </div>
-            <div>${statusTexto}</div>
-          </div>
-        </div>
-      `;
-
-      // Separa os jogos nos blocos corretos do seu Live Match Monitor
-      if (['IN_PLAY', 'PAUSED', 'EXTRA_TIME', 'PENALTY_SHOOTOUT'].includes(match.status)) {
-        htmlAoVivo += cardHTML;
-      } else if (['SCHEDULED', 'TIMED'].includes(match.status)) {
-        htmlHoje += cardHTML;
-      } else if (['FINISHED', 'AWARDED'].includes(match.status)) {
-        htmlFinalizados += cardHTML;
-      }
-    });
-
-    // Injeta as listas de jogos diretamente nos seus containers originais do painel monitor
-    containerAoVivo.innerHTML = htmlAoVivo || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:10px;">Nenhum jogo da Copa ao vivo agora</p>`;
-    containerHoje.innerHTML = htmlHoje || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:10px;">Sem próximos confrontos agendados</p>`;
-    containerFinalizados.innerHTML = htmlFinalizados || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:10px;">Nenhum jogo encerrado recentemente</p>`;
-
-  } catch (error) {
-    console.error('Erro no monitor da Copa:', error);
-    const msgErro = `<p style="color:var(--red); font-size:0.8rem; text-align:center; padding:5px;">⚠️ Não foi possível sincronizar com a API da FIFA.</p>`;
-    if (containerAoVivo) containerAoVivo.innerHTML = msgErro;
-  }
-}
-
-// Ativa a busca automática assim que o site carrega
-window.addEventListener('DOMContentLoaded', () => {
-  carregarMonitorCopaMundoAPI();
-  // Atualiza em tempo real a cada 60 segundos automaticamente
-  setInterval(carregarMonitorCopaMundoAPI, 60000);
-});
-// =========================================================================
-
+  
 
   window.switchTab = switchTab; window.toggleLogin = toggleLogin; window.doLogin = doLogin;
   window.addPlayer = addPlayer; window.addGame = addGame; window.saveAllBets = saveAllBets;
@@ -1287,6 +1246,227 @@ window.addEventListener('DOMContentLoaded', () => {
   window.saveEdit = saveEdit; window.deletePlayer = deletePlayer; window.renderBetMatrix = renderBetMatrix;
 
   startRealtimeRanking(); startRealtimeGames();
+  // =========================================================================
+// MONITOR COPA DO MUNDO 2026 - OPENLIGADB COM RODADAS E GOLOS DETALHADOS
+// =========================================================================
+
+const API_URL_OPENLIGA = 'https://api.openligadb.de/getmatchdata/wm26/2026/';
+
+// Dicionário expandido de seleções
+const traducaoTimes = {
+  'Brasilien': 'Brasil', 'Deutschland': 'Alemanha', 'Frankreich': 'França',
+  'Argentinien': 'Argentina', 'Spanien': 'Espanha', 'Portugal': 'Portugal',
+  'England': 'Inglaterra', 'Italien': 'Itália', 'Niederlande': 'Holanda',
+  'Belgien': 'Bélgica', 'Kroatien': 'Croácia', 'Uruguay': 'Uruguai',
+  'Kolumbien': 'Colômbia', 'Marokko': 'Marrocos', 'Japan': 'Japão',
+  'Mexiko': 'México', 'USA': 'Estados Unidos', 'Kanada': 'Canadá',
+  'Ecuador': 'Equador', 'Senegal': 'Senegal', 'Schweiz': 'Suíça',
+  'Dänemark': 'Dinamarca', 'Kamerun': 'Camarões', 'Serbien': 'Sérvia',
+  'Polen': 'Polônia', 'Südkorea': 'Coreia do Sul', 'Tunesien': 'Tunísia',
+  'Ghana': 'Gana', 'Australien': 'Austrália', 'Saudi-Arabien': 'Arábia Saudita',
+  'Iran': 'Irã', 'Costa Rica': 'Costa Rica', 'Wales': 'País de Gales',
+  'Ukraine': 'Ucrânia', 'Schottland': 'Escócia', 'Türkei': 'Turquia',
+  'Österreich': 'Áustria', 'Schweden': 'Suécia', 'Tschechien': 'Chéquia',
+  'Algerien': 'Argélia', 'Nigeria': 'Nigéria', 'Ägypten': 'Egito',
+  'Peru': 'Peru', 'Chile': 'Chile', 'Paraguay': 'Paraguai', 'Venezuela': 'Venezuela',
+  'Slowakei': 'Eslováquia', 'Rumänien': 'Romênia', 'Ungarn': 'Hungria', 'Slowenien': 'Eslovênia',
+  'Neuseeland': 'Nova Zelândia', 'Irak': 'Iraque', 'Katar': 'Catar', 'Jamaika': 'Jamaica',
+  'Panama': 'Panamá', 'Honduras': 'Honduras', 'Südafrika': 'África do Sul', 'China': 'China' , 'Elfenbeinküste' : 'Costa do Marfim' , 'Kap Verde' : 'Cabo Verde'
+};
+
+// Dicionário de fases do mata-mata
+const traducaoFases = {
+  '1. Spieltag': '1ª Rodada (Fase de Grupos)',
+  '2. Spieltag': '2ª Rodada (Fase de Grupos)',
+  '3. Spieltag': '3ª Rodada (Fase de Grupos)',
+  'Sechzehntelfinale': 'Fase de 32 (Dezesseis-avos)',
+  'Achtelfinale': 'Oitavas de Final',
+  'Viertelfinale': 'Quartas de Final',
+  'Halbfinale': 'Semifinais',
+  'Spiel um Platz 3': 'Disputa de 3º Lugar',
+  'Finale': 'Grande Final'
+};
+
+function traduzir(nomeAlemao) {
+  if (!nomeAlemao || nomeAlemao.includes('wie ') || nomeAlemao.includes('Sieger')) return 'A definir';
+  return traducaoTimes[nomeAlemao] || nomeAlemao;
+}
+
+function traduzirFase(faseAlema) {
+  if (!faseAlema) return 'Copa do Mundo';
+  if (faseAlema.includes('Gruppe')) {
+    return faseAlema.replace('Gruppe', 'Grupo');
+  }
+  return traducaoFases[faseAlema] || faseAlema;
+}
+
+function filtrarDataSegura(match) {
+  const dataRaw = match.matchDateTimeUtc || match.matchDateTime;
+  if (!dataRaw) return null;
+  
+  const dataObjeto = new Date(dataRaw);
+  if (isNaN(dataObjeto.getTime()) || dataObjeto.getFullYear() < 2000) {
+    return null;
+  }
+  return dataObjeto;
+}
+
+function construirHtmlAgrupado(objetoRodadas) {
+  let htmlFinal = '';
+  for (const rodada in objetoRodadas) {
+    htmlFinal += `
+      <div class="rodada-secao" style="margin-bottom: 20px;">
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--fifa-cyan); letter-spacing: 1px; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); text-transform: uppercase;">
+          ${rodada}
+        </div>
+        ${objetoRodadas[rodada]}
+      </div>
+    `;
+  }
+  return htmlFinal;
+}
+
+async function carregarMonitorCopaMundoAPI() {
+  const containerAoVivo = document.getElementById('jogosAoVivo');
+  const containerHoje = document.getElementById('jogosHoje');
+  const containerFinalizados = document.getElementById('jogosFinalizados');
+
+  if (!containerAoVivo || !containerHoje || !containerFinalizados) return;
+
+  try {
+    const response = await fetch(API_URL_OPENLIGA);
+    if (!response.ok) throw new Error(`Erro OpenLiga: ${response.status}`);
+
+    const data = await response.json();
+    if (!Array.isArray(data)) return;
+
+    const matches = data;
+
+    // Ordenação cronológica estável
+    matches.sort((a, b) => {
+      const dA = filtrarDataSegura(a) || new Date(0);
+      const dB = filtrarDataSegura(b) || new Date(0);
+      return dA - dB;
+    });
+
+    const aoVivoPorRodada = {};
+    const agendadosPorRodada = {};
+    const finalizadosPorRodada = {};
+
+    matches.forEach(match => {
+      const timeHome = traduzir(match.team1.teamName);
+      const timeAway = traduzir(match.team2.teamName);
+      const escudoHome = match.team1.teamIconUrl || '';
+      const escudoAway = match.team2.teamIconUrl || '';
+      
+      const nomeFase = traduzirFase(match.group ? match.group.groupName : '');
+      
+      let localTexto = '';
+      if (match.location) {
+        const estadio = match.location.locationStadium || '';
+        const cidade = match.location.locationCity || '';
+        localTexto = estadio && cidade ? `📍 ${estadio} - ${cidade}` : `📍 ${estadio || cidade}`;
+      }
+
+      let golsHome = '-';
+      let golsAway = '-';
+      if (match.matchResults && match.matchResults.length > 0) {
+        const resultadoFinal = match.matchResults.find(r => r.resultName === "Endergebnis") || match.matchResults[match.matchResults.length - 1];
+        if (resultadoFinal) {
+          golsHome = resultadoFinal.pointsTeam1;
+          golsAway = resultadoFinal.pointsTeam2;
+        }
+      }
+
+      // =========================================================================
+      // RE INTRODUÇÃO DA LÓGICA DE DETALHES DE GOLOS (QUEM MARCOU E MINUTO)
+      // =========================================================================
+      let detalhesGolsHTML = '';
+      if (match.goals && match.goals.length > 0) {
+        detalhesGolsHTML = `<div style="font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; width: 100%; display: flex; flex-wrap: wrap; gap: 6px;">`;
+        match.goals.forEach(gol => {
+          let sufixo = '';
+          if (gol.isPenalty) sufixo = ' (P)';
+          if (gol.isOwnGoal) sufixo = ' (Contra)';
+          detalhesGolsHTML += `<span>⚽ ${gol.goalGetterName || 'Gol'}${sufixo} (${gol.matchMinute}')</span>`;
+        });
+        detalhesGolsHTML += `</div>`;
+      }
+
+      const dataJogo = filtrarDataSegura(match);
+      let statusTexto = '';
+      let categoria = 'agendado';
+
+      if (match.matchIsFinished) {
+        statusTexto = `<span style="color: rgba(255,255,255,0.4); font-size: 0.7rem; font-weight: bold;">ENCERRADO</span>`;
+        categoria = 'finalizado';
+      } else if (!match.matchIsFinished && match.matchResults && match.matchResults.length > 0) {
+        statusTexto = `<span style="color: var(--fifa-neon); font-weight: bold; animation: pulse 1.5s infinite;">• AO VIVO</span>`;
+        categoria = 'aovivo';
+      } else if (dataJogo) {
+        const dataFormatada = dataJogo.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+        const horaFormatada = dataJogo.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        statusTexto = `<span style="color: var(--fifa-cyan); font-size: 0.7rem;">📅 ${dataFormatada} às ${horaFormatada}</span>`;
+        categoria = 'agendado';
+      } else {
+        statusTexto = `<span style="color: rgba(255,255,255,0.3); font-size: 0.7rem;">📅 Horário a definir</span>`;
+        categoria = 'agendado';
+      }
+
+      const cardHTML = `
+        <div class="jogo-card" style="display: flex; flex-direction: column; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.02); border-radius: 6px; border: 1px solid rgba(0, 240, 255, 0.08);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            ${localTexto ? `<div style="font-size: 0.65rem; color: rgba(255,255,255,0.3); font-style: italic;">${localTexto}</div>` : '<div></div>'}
+            <div>${statusTexto}</div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+              <div style="display: flex; align-items: center; gap: 8px; font-family: 'Oswald', sans-serif;">
+                <img src="${escudoHome}" style="width: 22px; height: 15px; object-fit: contain;" onerror="this.style.display='none'">
+                <span style="color: #fff; font-size: 0.9rem;">${timeHome}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-family: 'Oswald', sans-serif;">
+                <img src="${escudoAway}" style="width: 22px; height: 15px; object-fit: contain;" onerror="this.style.display='none'">
+                <span style="color: #fff; font-size: 0.9rem;">${timeAway}</span>
+              </div>
+            </div>
+            
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--fifa-neon); letter-spacing: 1px; min-width: 60px; text-align: right;">
+              ${golsHome} : ${golsAway}
+            </div>
+          </div>
+          <!-- Injeção dos marcadores na base do card -->
+          ${detalhesGolsHTML}
+        </div>
+      `;
+
+      if (categoria === 'aovivo') {
+        if (!aoVivoPorRodada[nomeFase]) aoVivoPorRodada[nomeFase] = '';
+        aoVivoPorRodada[nomeFase] += cardHTML;
+      } else if (categoria === 'agendado') {
+        if (!agendadosPorRodada[nomeFase]) agendadosPorRodada[nomeFase] = '';
+        agendadosPorRodada[nomeFase] += cardHTML;
+      } else if (categoria === 'finalizado') {
+        if (!finalizadosPorRodada[nomeFase]) finalizadosPorRodada[nomeFase] = '';
+        finalizadosPorRodada[nomeFase] += cardHTML;
+      }
+    });
+
+    containerAoVivo.innerHTML = construirHtmlAgrupado(aoVivoPorRodada) || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:15px;">Nenhum jogo da Copa ao vivo neste momento</p>`;
+    containerHoje.innerHTML = construirHtmlAgrupado(agendadosPorRodada) || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:15px;">Não há próximos confrontos agendados</p>`;
+    containerFinalizados.innerHTML = construirHtmlAgrupado(finalizadosPorRodada) || `<p style="color:rgba(255,255,255,0.25); font-size:0.8rem; text-align:center; padding:15px;">Nenhum jogo finalizado recentemente</p>`;
+
+  } catch (error) {
+    console.error('Erro de conexão com o painel OpenLigaDB:', error);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  carregarMonitorCopaMundoAPI();
+  setInterval(carregarMonitorCopaMundoAPI, 60000);
+});
+
 </script>
 </body>
 </html>
